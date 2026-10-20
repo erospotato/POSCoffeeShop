@@ -1,0 +1,59 @@
+# Vendor & Dependencies
+vendor/
+node_modules/
+backend/vendor/
+frontend/node_modules/
+
+# Environment files & Secrets
+.env
+.env.*
+!.env.example
+*.env
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Tests & Caches
+.phpunit.cache/
+.phpunit.result.cache
+backend/.phpunit.cache/
+backend/.phpunit.result.cache
+backend/storage/*.key
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/*
+!backend/storage/framework/cache/data/.gitignore
+backend/storage/framework/sessions/*
+!backend/storage/framework/sessions/.gitignore
+backend/storage/framework/testing/*
+!backend/storage/framework/testing/.gitignore
+backend/storage/framework/views/*
+!backend/storage/framework/views/.gitignore
+
+# Public hot & storage symlinks
+public/hot
+public/storage
+frontend/public/hot
+frontend/public/storage
+backend/public/hot
+backend/public/storage
+
+# Local SQLite databases
+*.sqlite
+*.sqlite-journal
+backend/database/*.sqlite
+backend/database/*.sqlite-journal
+
+# IDEs & OS metadata
+.fleet/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
