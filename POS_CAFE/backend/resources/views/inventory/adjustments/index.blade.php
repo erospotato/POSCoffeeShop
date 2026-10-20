@@ -35,8 +35,8 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Quantity Change (Signed) *</label>
-                    <input type="number" step="0.001" name="quantity_adjusted" placeholder="-500 for waste, +100 for gain" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold">
-                    <span class="text-[10px] text-slate-400 mt-1 block">Negative value reduces stock; positive value increases stock.</span>
+                    <input type="number" step="0.01" name="quantity_adjusted" placeholder="e.g. -1 for 1 bottle/gallon waste, +2 for gain" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold">
+                    <span class="text-[10px] text-slate-400 mt-1 block">Negative value reduces stock (e.g. -1 Gallon); positive increases stock.</span>
                 </div>
 
                 <div>

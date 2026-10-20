@@ -12,6 +12,23 @@ class ProductRequest extends FormRequest
         return $this->user()->isAdmin() || $this->user()->isManager();
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('variants') && is_array($this->variants)) {
+            $filteredVariants = array_values(array_filter($this->variants, function ($v) {
+                return !empty(trim($v['name'] ?? ''));
+            }));
+            $this->merge(['variants' => count($filteredVariants) > 0 ? $filteredVariants : null]);
+        }
+
+        if ($this->has('addons') && is_array($this->addons)) {
+            $filteredAddons = array_values(array_filter($this->addons, function ($a) {
+                return !empty(trim($a['name'] ?? ''));
+            }));
+            $this->merge(['addons' => count($filteredAddons) > 0 ? $filteredAddons : null]);
+        }
+    }
+
     public function rules(): array
     {
         $productId = $this->route('product')?->id;
@@ -23,6 +40,9 @@ class ProductRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:1000'],
             'base_price' => ['required', 'numeric', 'min:0'],
             'is_available' => ['nullable', 'boolean'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
+            'image_url' => ['nullable', 'string', 'max:500'],
+            'image_path' => ['nullable', 'string', 'max:500'],
             'variants' => ['nullable', 'array'],
             'variants.*.name' => ['required_with:variants', 'string', 'max:80'],
             'variants.*.price_modifier' => ['required_with:variants', 'numeric'],

@@ -15,9 +15,9 @@ class ShiftService
     /**
      * Open a new shift for the cashier.
      */
-    public function openShift(User $user, float $openingCash): CashierShift
+    public function openShift(User $user, float $openingCash, ?string $cashierStation = 'Cashier 1', ?string $shiftPeriod = 'Morning Shift'): CashierShift
     {
-        return DB::transaction(function () use ($user, $openingCash) {
+        return DB::transaction(function () use ($user, $openingCash, $cashierStation, $shiftPeriod) {
             $existing = CashierShift::where('user_id', $user->id)
                 ->where('status', 'open')
                 ->lockForUpdate()
@@ -29,6 +29,8 @@ class ShiftService
 
             $shift = CashierShift::create([
                 'user_id' => $user->id,
+                'cashier_station' => $cashierStation ?: 'Cashier 1',
+                'shift_period' => $shiftPeriod ?: 'Morning Shift',
                 'opened_at' => now(),
                 'opening_cash' => round($openingCash, 2),
                 'expected_cash' => round($openingCash, 2),
@@ -37,6 +39,8 @@ class ShiftService
 
             AuditService::log('shift_opened', $shift, null, [
                 'user' => $user->name,
+                'station' => $shift->cashier_station,
+                'period' => $shift->shift_period,
                 'opening_cash' => $openingCash,
             ]);
 

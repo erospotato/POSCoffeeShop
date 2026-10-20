@@ -14,22 +14,22 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Person</label>
-                    <input type="text" name="contact_name" value="{{ old('contact_name') }}" placeholder="Sales Representative" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Person *</label>
+                    <input type="text" name="contact_name" value="{{ old('contact_name') }}" required placeholder="Sales Representative" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone Number</label>
-                    <input type="text" name="phone" value="{{ old('phone') }}" placeholder="+855 12 345 678" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Phone Number *</label>
+                    <input type="text" name="phone" value="{{ old('phone') }}" required placeholder="+855 12 345 678" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address</label>
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="orders@supplier.com" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address *</label>
+                    <input type="email" name="email" value="{{ old('email') }}" required placeholder="orders@supplier.com" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Physical Address</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Physical Address (Optional)</label>
                     <input type="text" name="address" value="{{ old('address') }}" placeholder="Industrial Zone, Sector 4" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
                 </div>
             </div>

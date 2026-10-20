@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             SupplierAndPurchaseOrderSeeder::class,
             CustomerAndLoyaltySeeder::class,
             PromotionAndExpenseSeeder::class,
+            MoreProductsSeeder::class,
             OrderAndShiftSeeder::class,
         ]);
     }

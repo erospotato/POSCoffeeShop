@@ -74,11 +74,11 @@
                                 <td class="px-5 py-3 text-slate-600">{{ $order->items->sum('quantity') }} items</td>
                                 <td class="px-5 py-3 font-bold text-slate-900">${{ number_format($order->total_amount, 2) }}</td>
                                 <td class="px-5 py-3">
-                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {{ $order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
-                                        {{ ucfirst($order->payment_status) }}
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {{ $order->payment_status instanceof \App\Enums\PaymentStatus ? $order->payment_status->badgeClass() : ($order->payment_status === 'paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') }}">
+                                        {{ $order->payment_status instanceof \App\Enums\PaymentStatus ? $order->payment_status->label() : ucfirst($order->payment_status ?? '') }}
                                     </span>
                                 </td>
-                                <td class="px-5 py-3 text-slate-400 text-[11px]">{{ $order->created_at->format('M d, Y H:i') }}</td>
+                                <td class="px-5 py-3 text-slate-400 text-[11px]">{{ $order->created_at?->format('M d, Y H:i') ?? '—' }}</td>
                             </tr>
                         @empty
                             <tr>
@@ -122,7 +122,12 @@
                                 <td class="px-5 py-3 font-mono font-bold {{ $txn->points > 0 ? 'text-emerald-600' : 'text-rose-600' }}">
                                     {{ $txn->points > 0 ? '+' . $txn->points : $txn->points }}
                                 </td>
-                                <td class="px-5 py-3 text-slate-700 max-w-xs truncate">{{ $txn->notes ?? '—' }}</td>
+                                <td class="px-5 py-3 text-slate-700 max-w-xs truncate">
+                                    @if($txn->order)
+                                        <a href="{{ route('pos.receipt', $txn->order_id) }}" target="_blank" class="font-mono font-bold text-slate-900 hover:text-amber-600 hover:underline">#{{ $txn->order->order_number }}</a> —
+                                    @endif
+                                    {{ $txn->notes ?? '—' }}
+                                </td>
                                 <td class="px-5 py-3 font-bold text-slate-900">{{ $txn->balance_after }} pts</td>
                                 <td class="px-5 py-3 text-slate-400 text-[11px]">{{ $txn->created_at->format('M d, Y H:i') }}</td>
                             </tr>

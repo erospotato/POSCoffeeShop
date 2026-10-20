@@ -90,8 +90,7 @@ class KdsController extends Controller
         return Order::with(['items.addons', 'customer'])
             ->whereIn('status', [OrderStatus::CONFIRMED, OrderStatus::PREPARING, OrderStatus::READY])
             ->whereIn('payment_status', ['paid', 'partially_paid'])
-            ->orderByRaw("CASE status WHEN 'confirmed' THEN 1 WHEN 'preparing' THEN 2 WHEN 'ready' THEN 3 ELSE 4 END")
-            ->orderBy('created_at')
+            ->orderBy('created_at', 'asc')
             ->get();
     }
 }

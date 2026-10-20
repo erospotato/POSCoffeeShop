@@ -118,14 +118,10 @@
     </div>
     @if((float) $order->discount_amount > 0)
         <div class="flex">
-            <span>Discount:</span>
+            <span>Discount / Loyalty:</span>
             <span>-${{ number_format($order->discount_amount, 2) }}</span>
         </div>
     @endif
-    <div class="flex">
-        <span>Tax:</span>
-        <span>${{ number_format($order->tax_amount, 2) }}</span>
-    </div>
 
     <div class="border-top my-2"></div>
 

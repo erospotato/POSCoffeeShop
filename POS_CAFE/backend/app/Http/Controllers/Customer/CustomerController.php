@@ -55,7 +55,11 @@ class CustomerController extends Controller
 
     public function show(Customer $customer)
     {
-        $customer->load(['orders.items', 'loyaltyTransactions' => fn($q) => $q->latest()]);
+        $customer->load([
+            'orders' => fn($q) => $q->latest(),
+            'orders.items',
+            'loyaltyTransactions' => fn($q) => $q->with('order')->latest()
+        ]);
         return view('customers.show', compact('customer'));
     }
 

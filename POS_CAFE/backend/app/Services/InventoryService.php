@@ -278,24 +278,68 @@ class InventoryService
     }
 
     /**
-     * Unit conversion helper (e.g. kg <-> g, L <-> ml, pcs).
+     * Unit conversion helper (e.g. Gallon, Bottle, Bag, Tin, Box, pcs, kg, g, L, ml).
      */
     public function convertUnit(float $amount, string $fromUnit, string $toUnit): float
     {
-        $fromUnit = strtolower(trim($fromUnit));
-        $toUnit = strtolower(trim($toUnit));
+        $from = strtolower(trim($fromUnit));
+        $to = strtolower(trim($toUnit));
 
-        if ($fromUnit === $toUnit) {
+        if ($from === $to) {
             return $amount;
         }
 
-        // Weight
-        if ($fromUnit === 'kg' && $toUnit === 'g') return $amount * 1000;
-        if ($fromUnit === 'g' && $toUnit === 'kg') return $amount / 1000;
+        // Weight conversions (base: grams)
+        $weights = [
+            'g' => 1.0,
+            'gram' => 1.0,
+            'grams' => 1.0,
+            'kg' => 1000.0,
+            'kilogram' => 1000.0,
+            'bag' => 1000.0, // standard 1kg coffee beans bag
+            'bags' => 1000.0,
+            'tin' => 250.0,  // 250g tea/matcha tin
+            'tins' => 250.0,
+        ];
+        if (isset($weights[$from]) && isset($weights[$to])) {
+            $baseGrams = $amount * $weights[$from];
+            return $baseGrams / $weights[$to];
+        }
 
-        // Volume
-        if ($fromUnit === 'l' && $toUnit === 'ml') return $amount * 1000;
-        if ($fromUnit === 'ml' && $toUnit === 'l') return $amount / 1000;
+        // Volume conversions (base: milliliters)
+        $volumes = [
+            'ml' => 1.0,
+            'milliliter' => 1.0,
+            'milliliters' => 1.0,
+            'l' => 1000.0,
+            'liter' => 1000.0,
+            'liters' => 1000.0,
+            'gallon' => 3785.41, // 1 US gallon = 3785.41 ml
+            'gallons' => 3785.41,
+            'bottle' => 750.0,   // standard 750ml syrup bottle
+            'bottles' => 750.0,
+            'carton' => 1000.0,  // 1 carton = 1000 ml
+            'cartons' => 1000.0,
+        ];
+        if (isset($volumes[$from]) && isset($volumes[$to])) {
+            $baseMl = $amount * $volumes[$from];
+            return $baseMl / $volumes[$to];
+        }
+
+        // Discrete items / pastry boxes
+        $pieces = [
+            'pcs' => 1.0,
+            'piece' => 1.0,
+            'pieces' => 1.0,
+            'unit' => 1.0,
+            'units' => 1.0,
+            'box' => 20.0,
+            'boxes' => 20.0,
+        ];
+        if (isset($pieces[$from]) && isset($pieces[$to])) {
+            $basePcs = $amount * $pieces[$from];
+            return $basePcs / $pieces[$to];
+        }
 
         return $amount;
     }

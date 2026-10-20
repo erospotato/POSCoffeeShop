@@ -15,6 +15,8 @@ class OpenShiftRequest extends FormRequest
     {
         return [
             'opening_cash' => ['required', 'numeric', 'min:0', 'max:50000'],
+            'cashier_station' => ['nullable', 'string', 'max:50'],
+            'shift_period' => ['nullable', 'string', 'max:50'],
         ];
     }
 }

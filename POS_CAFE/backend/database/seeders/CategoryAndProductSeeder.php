@@ -45,6 +45,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'COF-CAP-001',
             'description' => 'Rich espresso with equal parts steamed milk and velvety foam.',
             'base_price' => 3.50,
+            'image_path' => 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 
@@ -58,6 +59,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'COF-LAT-002',
             'description' => 'Espresso with silky steamed milk and Madagascar vanilla.',
             'base_price' => 3.80,
+            'image_path' => 'https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 
@@ -72,6 +74,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'COF-AME-003',
             'description' => 'Double espresso shot poured over hot purified water.',
             'base_price' => 2.50,
+            'image_path' => 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 
@@ -85,6 +88,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'COF-MAC-004',
             'description' => 'Freshly steamed milk with vanilla, marked with espresso and caramel drizzle.',
             'base_price' => 4.20,
+            'image_path' => 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 
@@ -99,6 +103,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'TEA-MAT-001',
             'description' => 'Uji ceremonial grade green tea whisked with whole or oat milk.',
             'base_price' => 4.00,
+            'image_path' => 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 
@@ -113,6 +118,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'BAK-CRO-001',
             'description' => 'Traditional French butter croissant baked golden crisp every morning.',
             'base_price' => 2.75,
+            'image_path' => 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 
@@ -123,6 +129,7 @@ class CategoryAndProductSeeder extends Seeder
             'sku' => 'BAK-MUF-002',
             'description' => 'Moist muffin packed with organic wild blueberries and streusel crumble.',
             'base_price' => 2.90,
+            'image_path' => 'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=600&q=80',
             'is_available' => true,
         ]);
 

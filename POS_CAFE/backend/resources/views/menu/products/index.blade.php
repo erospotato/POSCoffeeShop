@@ -40,7 +40,14 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse($products as $product)
                         <tr class="hover:bg-slate-50/80 transition">
-                            <td class="px-6 py-3.5 font-bold text-slate-900">{{ $product->name }}</td>
+                            <td class="px-6 py-3.5">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                                        <img src="{{ $product->image_path ?: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80' }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="font-bold text-slate-900">{{ $product->name }}</span>
+                                </div>
+                            </td>
                             <td class="px-6 py-3.5 font-mono text-slate-500">{{ $product->sku }}</td>
                             <td class="px-6 py-3.5 text-slate-600 font-medium">{{ $product->category->name }}</td>
                             <td class="px-6 py-3.5 font-extrabold text-amber-600">${{ number_format($product->base_price, 2) }}</td>
@@ -68,11 +75,7 @@
                             </td>
                             <td class="px-6 py-3.5 text-right space-x-2">
                                 <a href="{{ route('products.edit', $product->id) }}" class="font-bold text-slate-700 hover:text-amber-600">Edit</a>
-                                <form method="POST" action="{{ route('products.destroy', $product->id) }}" class="inline" onsubmit="return confirm('Delete this product?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="font-bold text-rose-500 hover:text-rose-700">Delete</button>
-                                </form>
+                                <button type="button" onclick="openDeleteProductModal({{ $product->id }}, '{{ addslashes($product->name) }}')" class="font-bold text-rose-500 hover:text-rose-700">Delete</button>
                             </td>
                         </tr>
                     @empty
@@ -89,4 +92,47 @@
             </div>
         @endif
     </div>
+
+    <!-- Custom Delete Confirmation Modal Popup -->
+    <div id="deleteConfirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 flex flex-col items-center text-center">
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-3 shadow-inner">
+                ⚠️
+            </div>
+            <h3 class="text-base font-extrabold text-slate-900 mb-1">Delete Menu Product?</h3>
+            <p class="text-xs text-slate-500 mb-5">
+                Are you sure you want to delete <span class="font-bold text-slate-800" id="deleteTargetProductName">this product</span>? This action will remove it from the menu catalog and active POS ordering.
+            </p>
+
+            <form id="deleteProductForm" method="POST" action="" class="w-full space-y-2">
+                @csrf
+                @method('DELETE')
+                <div class="grid grid-cols-2 gap-2 w-full">
+                    <button type="button" onclick="closeDeleteProductModal()" class="py-2.5 px-4 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="py-2.5 px-4 rounded-xl text-xs font-black text-white bg-rose-600 hover:bg-rose-700 shadow-sm transition">
+                        Yes, Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openDeleteProductModal(productId, productName) {
+            document.getElementById('deleteTargetProductName').innerText = `"${productName}"`;
+            document.getElementById('deleteProductForm').action = `/menu/products/${productId}`;
+            document.getElementById('deleteConfirmModal').classList.remove('hidden');
+        }
+
+        function closeDeleteProductModal() {
+            document.getElementById('deleteConfirmModal').classList.add('hidden');
+        }
+
+        // Close on backdrop click
+        document.getElementById('deleteConfirmModal')?.addEventListener('click', function(e) {
+            if (e.target === this) closeDeleteProductModal();
+        });
+    </script>
 </x-app-layout>

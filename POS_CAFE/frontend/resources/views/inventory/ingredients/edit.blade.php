@@ -21,12 +21,18 @@
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Stock Unit *</label>
-                    <select name="unit" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
-                        <option value="g" {{ $ingredient->unit === 'g' ? 'selected' : '' }}>Grams (g)</option>
-                        <option value="ml" {{ $ingredient->unit === 'ml' ? 'selected' : '' }}>Milliliters (ml)</option>
-                        <option value="pcs" {{ $ingredient->unit === 'pcs' ? 'selected' : '' }}>Pieces / Units (pcs)</option>
-                        <option value="kg" {{ $ingredient->unit === 'kg' ? 'selected' : '' }}>Kilograms (kg)</option>
-                        <option value="l" {{ $ingredient->unit === 'l' ? 'selected' : '' }}>Liters (L)</option>
+                    <select name="unit" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-medium">
+                        <option value="Gallon" {{ strcasecmp($ingredient->unit, 'Gallon') === 0 ? 'selected' : '' }}>Gallon (e.g. Milk, Dairy)</option>
+                        <option value="Bottle" {{ strcasecmp($ingredient->unit, 'Bottle') === 0 ? 'selected' : '' }}>Bottle (e.g. Syrups, Sauces)</option>
+                        <option value="Carton" {{ strcasecmp($ingredient->unit, 'Carton') === 0 ? 'selected' : '' }}>Carton (e.g. Oat Milk, Cream)</option>
+                        <option value="Bag" {{ strcasecmp($ingredient->unit, 'Bag') === 0 ? 'selected' : '' }}>Bag (e.g. Coffee Beans)</option>
+                        <option value="Tin" {{ strcasecmp($ingredient->unit, 'Tin') === 0 ? 'selected' : '' }}>Tin / Can (e.g. Matcha Powder, Tea)</option>
+                        <option value="Box" {{ strcasecmp($ingredient->unit, 'Box') === 0 ? 'selected' : '' }}>Box (e.g. Bakery Dough, Pastries)</option>
+                        <option value="pcs" {{ strcasecmp($ingredient->unit, 'pcs') === 0 ? 'selected' : '' }}>Pieces / Units (pcs)</option>
+                        <option value="kg" {{ strcasecmp($ingredient->unit, 'kg') === 0 ? 'selected' : '' }}>Kilograms (kg)</option>
+                        <option value="L" {{ strcasecmp($ingredient->unit, 'L') === 0 ? 'selected' : '' }}>Liters (L)</option>
+                        <option value="g" {{ strcasecmp($ingredient->unit, 'g') === 0 ? 'selected' : '' }}>Grams (g)</option>
+                        <option value="ml" {{ strcasecmp($ingredient->unit, 'ml') === 0 ? 'selected' : '' }}>Milliliters (ml)</option>
                     </select>
                 </div>
 

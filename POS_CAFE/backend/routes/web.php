@@ -29,6 +29,7 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     // Role-routed smart dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/api/photos/search', [ProductController::class, 'searchPhotos'])->name('photos.search');
 
     // POS & Cashier Shifts (Admin, Manager, Cashier)
     Route::middleware(['role:admin,manager,cashier'])->group(function () {
@@ -36,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/pos/calculate', [PosController::class, 'calculate'])->name('pos.calculate');
         Route::post('/pos/checkout', [PosController::class, 'checkout'])->name('pos.checkout');
         Route::get('/pos/receipt/{order}', [PosController::class, 'receipt'])->name('pos.receipt');
+        Route::get('/pos/orders/{order}/receipt-data', [PosController::class, 'receiptData'])->name('pos.receipt_data');
+        Route::get('/pos/customers/search', [PosController::class, 'searchCustomers'])->name('pos.customers.search');
+        Route::post('/pos/customers/quick-create', [PosController::class, 'quickCreateCustomer'])->name('pos.customers.quick_create');
         Route::post('/pos/orders/{order}/cancel', [PosController::class, 'cancel'])->name('pos.orders.cancel');
 
         Route::get('/shifts', [ShiftController::class, 'index'])->name('shifts.index');
@@ -83,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
         Route::get('/reports/export-csv', [ReportController::class, 'exportCsv'])->name('reports.export_csv');
+        Route::get('/reports/export-csv-download', [ReportController::class, 'exportCsv'])->name('reports.export-csv');
     });
 
     // System Administration & Settings (Admin only)

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Customer;
+use App\Models\LoyaltyReward;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderItemAddon;
@@ -33,7 +34,7 @@ class PosService
      *   ]
      * ]
      */
-    public function calculatePricing(array $items, ?int $promotionId = null, ?int $customerId = null): array
+    public function calculatePricing(array $items, ?int $promotionId = null, ?int $customerId = null, ?int $loyaltyRewardId = null): array
     {
         $calculatedItems = [];
         $subtotal = 0.0;
@@ -114,30 +115,51 @@ class PosService
             }
         }
 
-        $taxRate = (float) SystemSetting::get('tax_rate', 10.0); // e.g., 10%
-        $taxMode = SystemSetting::get('tax_mode', 'exclusive'); // inclusive or exclusive
+        $loyaltyDiscount = 0.0;
+        $appliedReward = null;
 
-        $afterDiscount = max(0.0, $subtotal - $discountAmount);
+        if ($loyaltyRewardId && $customerId) {
+            $customer = Customer::find($customerId);
+            $reward = LoyaltyReward::find($loyaltyRewardId);
 
-        if ($taxMode === 'inclusive') {
-            // Tax is included inside the price
-            $taxAmount = round($afterDiscount - ($afterDiscount / (1 + ($taxRate / 100))), 2);
-            $totalAmount = $afterDiscount;
-        } else {
-            // Tax is added on top
-            $taxAmount = round(($afterDiscount * $taxRate) / 100, 2);
-            $totalAmount = round($afterDiscount + $taxAmount, 2);
+            if ($customer && $reward && $reward->is_active && $customer->points_balance >= $reward->points_required) {
+                if ($reward->discount_type === 'percentage') {
+                    $loyaltyDiscount = round(($subtotal * (float) $reward->discount_value) / 100, 2);
+                } elseif ($reward->discount_type === 'free_product' && $reward->product_id) {
+                    $matchingItem = collect($calculatedItems)->firstWhere('product_id', $reward->product_id);
+                    if ($matchingItem) {
+                        $loyaltyDiscount = min($subtotal, (float) $matchingItem['unit_price']);
+                    } else {
+                        $loyaltyDiscount = min($subtotal, (float) $reward->discount_value);
+                    }
+                } else {
+                    $loyaltyDiscount = min($subtotal, round((float) $reward->discount_value, 2));
+                }
+                $appliedReward = $reward;
+            }
         }
+
+        $totalDiscount = min($subtotal, round($discountAmount + $loyaltyDiscount, 2));
+        $afterDiscount = max(0.0, round($subtotal - $totalDiscount, 2));
+
+        // Tax removed per user specification
+        $taxRate = 0.0;
+        $taxMode = 'none';
+        $taxAmount = 0.0;
+        $totalAmount = $afterDiscount;
 
         return [
             'items' => $calculatedItems,
             'subtotal' => $subtotal,
-            'discount_amount' => $discountAmount,
+            'discount_amount' => $totalDiscount,
+            'promo_discount' => $discountAmount,
+            'loyalty_discount' => $loyaltyDiscount,
             'tax_amount' => $taxAmount,
             'tax_rate' => $taxRate,
             'tax_mode' => $taxMode,
             'total_amount' => $totalAmount,
             'applied_promotion' => $appliedPromotion,
+            'applied_reward' => $appliedReward,
         ];
     }
 
@@ -150,7 +172,8 @@ class PosService
             $pricing = $this->calculatePricing(
                 $data['items'],
                 $data['promotion_id'] ?? null,
-                $data['customer_id'] ?? null
+                $data['customer_id'] ?? null,
+                $data['loyalty_reward_id'] ?? null
             );
 
             $orderNumber = $this->generateOrderNumber();
@@ -167,7 +190,7 @@ class PosService
                 'payment_status' => PaymentStatus::UNPAID,
                 'subtotal' => $pricing['subtotal'],
                 'discount_amount' => $pricing['discount_amount'],
-                'tax_amount' => $pricing['tax_amount'],
+                'tax_amount' => 0.00,
                 'total_amount' => $pricing['total_amount'],
                 'notes' => $data['notes'] ?? null,
             ]);
@@ -198,6 +221,13 @@ class PosService
 
             if (!empty($pricing['applied_promotion'])) {
                 $pricing['applied_promotion']->increment('used_count');
+            }
+
+            if (!empty($pricing['applied_reward']) && !empty($data['customer_id'])) {
+                $customer = Customer::find($data['customer_id']);
+                if ($customer) {
+                    app(LoyaltyService::class)->redeemReward($customer, $pricing['applied_reward'], $order);
+                }
             }
 
             AuditService::log('order_created', $order, null, [

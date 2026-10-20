@@ -49,10 +49,12 @@ class ShiftController extends Controller
         try {
             $shift = $this->shiftService->openShift(
                 $request->user(),
-                (float) $request->input('opening_cash')
+                (float) $request->input('opening_cash'),
+                $request->input('cashier_station', 'Cashier 1'),
+                $request->input('shift_period', 'Morning Shift')
             );
 
-            return redirect()->route('pos.index')->with('success', "Shift #{$shift->id} opened with $" . number_format($shift->opening_cash, 2) . " opening cash.");
+            return redirect()->route('pos.index')->with('success', "Shift #{$shift->id} ({$shift->cashier_station} - {$shift->shift_period}) opened with $" . number_format($shift->opening_cash, 2) . " opening cash.");
         } catch (Exception $e) {
             return back()->withErrors(['shift_error' => $e->getMessage()]);
         }

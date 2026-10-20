@@ -17,6 +17,7 @@ class CheckoutRequest extends FormRequest
             'order_type' => ['required', 'in:dine_in,takeaway,delivery'],
             'table_number' => ['nullable', 'string', 'max:20'],
             'customer_id' => ['nullable', 'exists:customers,id'],
+            'loyalty_reward_id' => ['nullable', 'exists:loyalty_rewards,id'],
             'promotion_id' => ['nullable', 'exists:promotions,id'],
             'notes' => ['nullable', 'string', 'max:500'],
             'items' => ['required', 'array', 'min:1'],
