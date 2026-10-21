@@ -21,7 +21,7 @@ class PurchaseOrderRequest extends FormRequest
             'items' => ['required', 'array', 'min:1'],
             'items.*.ingredient_id' => ['required', 'exists:ingredients,id'],
             'items.*.quantity_ordered' => ['required', 'numeric', 'min:0.001'],
-            'items.*.unit_price' => ['required', 'numeric', 'min:0'],
+            'items.*.unit_price' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }

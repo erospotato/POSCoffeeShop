@@ -9,7 +9,7 @@ class IngredientRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->isAdmin() || $this->user()->isManager();
+        return $this->user()->isAdmin() || $this->user()->isManager() || $this->user()->isBarista();
     }
 
     public function rules(): array

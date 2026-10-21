@@ -1952,6 +1952,12 @@
                 console.error(e);
             }
         }
+
+        @if(!$activeShift)
+        document.addEventListener('DOMContentLoaded', function () {
+            openStartShiftModal();
+        });
+        @endif
     </script>
 </body>
 </html>

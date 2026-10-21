@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::firstOrCreate(['email' => 'cashier@cafe.com'], [
-            'name' => 'Chloe Cashier',
+            'name' => 'Cashier 1',
             'role_id' => $cashierRole->id,
             'phone' => '+855 12 345 680',
             'password' => $defaultPassword,

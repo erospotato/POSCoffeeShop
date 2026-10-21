@@ -54,6 +54,39 @@
         </div>
     </div>
 
+    <!-- Barista Station Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <a href="{{ route('ingredients.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-amber-400 shadow-sm transition flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-105 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-slate-900 group-hover:text-amber-600 transition">Ingredients Stock</h4>
+                <p class="text-[10px] text-slate-400">View real-time ingredient levels</p>
+            </div>
+        </a>
+
+        <a href="{{ route('recipes.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-indigo-400 shadow-sm transition flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-105 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition">Drink Recipes</h4>
+                <p class="text-[10px] text-slate-400">Preparation guides & ingredients</p>
+            </div>
+        </a>
+
+        <a href="{{ route('adjustments.index') }}" class="p-4 bg-white rounded-2xl border border-slate-200 hover:border-rose-400 shadow-sm transition flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-105 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-slate-900 group-hover:text-rose-600 transition">Wastage & Spillage</h4>
+                <p class="text-[10px] text-slate-400">Record kitchen waste & adjustments</p>
+            </div>
+        </a>
+    </div>
+
     <!-- Active Orders Preview Grid -->
     <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-4">

@@ -69,12 +69,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/products/{product}/toggle', [ProductController::class, 'toggleAvailability'])->name('products.toggle');
         Route::resource('categories', CategoryController::class);
 
-        Route::resource('ingredients', IngredientController::class);
-        Route::resource('recipes', RecipeController::class);
-        Route::get('/adjustments', [StockAdjustmentController::class, 'index'])->name('adjustments.index');
-        Route::post('/adjustments', [StockAdjustmentController::class, 'store'])->name('adjustments.store');
-        Route::get('/adjustments/ledger', [StockAdjustmentController::class, 'ledger'])->name('adjustments.ledger');
-
         Route::resource('suppliers', SupplierController::class);
         Route::resource('purchase-orders', PurchaseOrderController::class);
         Route::post('/purchase-orders/{purchase_order}/receive', [PurchaseOrderController::class, 'receive'])->name('purchase-orders.receive');
@@ -88,6 +82,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
         Route::get('/reports/export-csv', [ReportController::class, 'exportCsv'])->name('reports.export_csv');
         Route::get('/reports/export-csv-download', [ReportController::class, 'exportCsv'])->name('reports.export-csv');
+    });
+
+    // Inventory, Recipes, and Wastage / Adjustments (Admin, Manager, and Barista)
+    Route::middleware(['role:admin,manager,barista'])->group(function () {
+        Route::resource('ingredients', IngredientController::class);
+        Route::resource('recipes', RecipeController::class);
+        Route::get('/adjustments', [StockAdjustmentController::class, 'index'])->name('adjustments.index');
+        Route::post('/adjustments', [StockAdjustmentController::class, 'store'])->name('adjustments.store');
+        Route::get('/adjustments/ledger', [StockAdjustmentController::class, 'ledger'])->name('adjustments.ledger');
     });
 
     // Employee & Staff Management (Admin and Manager)

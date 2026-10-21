@@ -45,8 +45,22 @@ class PurchaseOrderController extends Controller
         $poNumber = 'PO-' . now()->format('Y') . '-' . sprintf('%04d', PurchaseOrder::count() + 1);
 
         $totalCost = 0.0;
+        $itemsWithPrice = [];
         foreach ($data['items'] as $item) {
-            $totalCost += (float) $item['quantity_ordered'] * (float) $item['unit_price'];
+            $ingredient = Ingredient::find($item['ingredient_id']);
+            $unitPrice = isset($item['unit_price']) && is_numeric($item['unit_price'])
+                ? (float) $item['unit_price']
+                : (float) ($ingredient?->cost_per_unit ?? 0.0);
+            $qty = (float) $item['quantity_ordered'];
+            $subtotal = round($qty * $unitPrice, 2);
+            $totalCost += $subtotal;
+
+            $itemsWithPrice[] = [
+                'ingredient_id' => $item['ingredient_id'],
+                'quantity_ordered' => $qty,
+                'unit_price' => $unitPrice,
+                'subtotal' => $subtotal,
+            ];
         }
 
         $po = PurchaseOrder::create([
@@ -60,15 +74,14 @@ class PurchaseOrderController extends Controller
             'notes' => $data['notes'] ?? null,
         ]);
 
-        foreach ($data['items'] as $item) {
-            $subtotal = round((float) $item['quantity_ordered'] * (float) $item['unit_price'], 2);
+        foreach ($itemsWithPrice as $item) {
             PurchaseOrderItem::create([
                 'purchase_order_id' => $po->id,
                 'ingredient_id' => $item['ingredient_id'],
-                'quantity_ordered' => (float) $item['quantity_ordered'],
+                'quantity_ordered' => $item['quantity_ordered'],
                 'quantity_received' => 0,
-                'unit_price' => (float) $item['unit_price'],
-                'subtotal' => $subtotal,
+                'unit_price' => $item['unit_price'],
+                'subtotal' => $item['subtotal'],
             ]);
         }
 
