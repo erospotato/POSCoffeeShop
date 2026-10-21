@@ -571,7 +571,7 @@
                     Back to Order
                 </button>
                 <button type="button" id="btnSubmitOrder" onclick="submitOrderCheckout()" class="px-7 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl shadow-lg text-sm transition flex items-center space-x-2">
-                    <span>Confirm & Complete Order</span>
+                    <span id="btnSubmitOrderText">Confirm & Complete Order</span>
                     <span id="btnSubmitOrderTotal" class="font-mono">$0.00</span>
                 </button>
             </div>
@@ -1431,6 +1431,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     },
                     body: JSON.stringify({
@@ -1456,19 +1457,23 @@
         }
 
         function updateSummaryDisplay(subtotal, discount, total) {
-            document.getElementById('cartSubtotal').innerText = '$' + subtotal.toFixed(2);
+            const subEl = document.getElementById('cartSubtotal');
+            if (subEl) subEl.innerText = '$' + subtotal.toFixed(2);
 
             const discountRow = document.getElementById('discountRow');
+            const discEl = document.getElementById('cartDiscount');
             if (discount > 0) {
-                discountRow.classList.remove('hidden');
-                document.getElementById('cartDiscount').innerText = '-$' + discount.toFixed(2);
+                if (discountRow) discountRow.classList.remove('hidden');
+                if (discEl) discEl.innerText = '-$' + discount.toFixed(2);
             } else {
-                discountRow.classList.add('hidden');
+                if (discountRow) discountRow.classList.add('hidden');
             }
 
             // TAX is removed completely
-            document.getElementById('cartTotal').innerText = '$' + total.toFixed(2);
-            document.getElementById('btnCheckoutTotal').innerText = '$' + total.toFixed(2);
+            const totalEl = document.getElementById('cartTotal');
+            if (totalEl) totalEl.innerText = '$' + total.toFixed(2);
+            const btnCheckoutTotal = document.getElementById('btnCheckoutTotal');
+            if (btnCheckoutTotal) btnCheckoutTotal.innerText = '$' + total.toFixed(2);
 
             // Keep floating collapsed indicator synced
             const floatTotal = document.getElementById('floatingCartTotal');
@@ -1477,6 +1482,33 @@
             cart.forEach(it => { totalItems += (parseInt(it.quantity) || 1); });
             const floatCount = document.getElementById('floatingCartCount');
             if (floatCount) floatCount.innerText = totalItems;
+        }
+
+        // Helper to safely update submit order button state without destroying child DOM elements
+        function updateSubmitOrderButton(loading, totalAmount = null) {
+            const btn = document.getElementById('btnSubmitOrder');
+            if (!btn) return;
+            btn.disabled = !!loading;
+
+            let textSpan = document.getElementById('btnSubmitOrderText');
+            let totalSpan = document.getElementById('btnSubmitOrderTotal');
+
+            if (!textSpan || !totalSpan) {
+                btn.innerHTML = `<span id="btnSubmitOrderText">Confirm & Complete Order</span> <span id="btnSubmitOrderTotal" class="font-mono">$0.00</span>`;
+                textSpan = document.getElementById('btnSubmitOrderText');
+                totalSpan = document.getElementById('btnSubmitOrderTotal');
+            }
+
+            if (loading) {
+                if (textSpan) textSpan.innerText = 'Processing Payment...';
+                if (totalSpan) totalSpan.innerText = '';
+            } else {
+                if (textSpan) textSpan.innerText = 'Confirm & Complete Order';
+                if (totalSpan && totalAmount !== null) {
+                    const amt = typeof totalAmount === 'number' ? totalAmount : parseFloat(totalAmount || 0);
+                    totalSpan.innerText = '$' + (isNaN(amt) ? '0.00' : amt.toFixed(2));
+                }
+            }
         }
 
         // ================= REALISTIC PAYMENT MODAL WORKFLOW =================
@@ -1492,35 +1524,43 @@
                 calculatedTotals.total_amount = total;
             }
 
-            document.getElementById('payModalAmountDue').innerText = '$' + total.toFixed(2);
-            document.getElementById('btnSubmitOrderTotal').innerText = '$' + total.toFixed(2);
-            document.getElementById('qrAmountDisplay').innerText = '$' + total.toFixed(2);
+            const dueEl = document.getElementById('payModalAmountDue');
+            if (dueEl) dueEl.innerText = '$' + total.toFixed(2);
+
+            const qrEl = document.getElementById('qrAmountDisplay');
+            if (qrEl) qrEl.innerText = '$' + total.toFixed(2);
+
             // Cash tendered starts blank per cashier requirements
-            document.getElementById('cashReceivedInput').value = '';
-            document.getElementById('cashChangeDisplay').innerText = '$0.00';
+            const cashInput = document.getElementById('cashReceivedInput');
+            if (cashInput) cashInput.value = '';
+
+            const changeDisplay = document.getElementById('cashChangeDisplay');
+            if (changeDisplay) changeDisplay.innerText = '$0.00';
             cashInputFresh = true;
 
             // Generate fresh random card authorization ref
             const cardRefEl = document.getElementById('cardAuthRef');
             if (cardRefEl) cardRefEl.value = 'CARD-AUTH-' + Math.floor(100000 + Math.random() * 900000);
 
-            // Re-enable and reset submit button state
-            const submitBtn = document.getElementById('btnSubmitOrder');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'Confirm & Complete Order';
-            }
+            // Safely re-enable and update submit button state with current total
+            updateSubmitOrderButton(false, total);
 
             // Customer info on payment modal
-            if (selectedCustomer) {
-                document.getElementById('payModalCustomerName').innerText = `${selectedCustomer.name} (${selectedCustomer.points_balance} pts)`;
-            } else {
-                document.getElementById('payModalCustomerName').innerText = 'Walk-in Customer';
+            const custNameEl = document.getElementById('payModalCustomerName');
+            if (custNameEl) {
+                if (selectedCustomer) {
+                    custNameEl.innerText = `${selectedCustomer.name} (${selectedCustomer.points_balance} pts)`;
+                } else {
+                    custNameEl.innerText = 'Walk-in Customer';
+                }
             }
 
             calculateCashChange();
-            selectPaymentMethod('cash', document.querySelectorAll('.pay-method-tab')[0]);
-            document.getElementById('paymentModal').classList.remove('hidden');
+            const payTabs = document.querySelectorAll('.pay-method-tab');
+            if (payTabs.length > 0) {
+                selectPaymentMethod('cash', payTabs[0]);
+            }
+            document.getElementById('paymentModal')?.classList.remove('hidden');
         }
 
         function closePaymentModal() {
@@ -1533,23 +1573,25 @@
                 b.classList.remove('active', 'bg-amber-500', 'text-white', 'shadow-md');
                 b.classList.add('bg-slate-100', 'text-slate-700');
             });
-            btn.classList.add('active', 'bg-amber-500', 'text-white', 'shadow-md');
-            btn.classList.remove('bg-slate-100', 'text-slate-700');
+            if (btn) {
+                btn.classList.add('active', 'bg-amber-500', 'text-white', 'shadow-md');
+                btn.classList.remove('bg-slate-100', 'text-slate-700');
+            }
 
             const cashSec = document.getElementById('payCashSection');
             const cardSec = document.getElementById('payCardSection');
             const qrSec = document.getElementById('payQrSection');
 
-            cashSec.classList.add('hidden');
-            cardSec.classList.add('hidden');
-            qrSec.classList.add('hidden');
+            cashSec?.classList.add('hidden');
+            cardSec?.classList.add('hidden');
+            qrSec?.classList.add('hidden');
 
             if (method === 'cash') {
-                cashSec.classList.remove('hidden');
+                cashSec?.classList.remove('hidden');
             } else if (method === 'card') {
-                cardSec.classList.remove('hidden');
+                cardSec?.classList.remove('hidden');
             } else if (method === 'qr_code') {
-                qrSec.classList.remove('hidden');
+                qrSec?.classList.remove('hidden');
             }
         }
 
@@ -1605,10 +1647,6 @@
 
         // ================= SUBMIT CHECKOUT & SHOW REALISTIC THERMAL RECEIPT =================
         async function submitOrderCheckout() {
-            const btn = document.getElementById('btnSubmitOrder');
-            btn.disabled = true;
-            btn.innerText = 'Processing Payment...';
-
             let totalToPay = calculatedTotals.total_amount;
             if (!totalToPay || totalToPay <= 0) {
                 let sum = 0;
@@ -1616,7 +1654,9 @@
                 totalToPay = Math.round(sum * 100) / 100;
             }
 
-            const cashInputRaw = document.getElementById('cashReceivedInput').value.trim();
+            updateSubmitOrderButton(true);
+
+            const cashInputRaw = (document.getElementById('cashReceivedInput')?.value || '').trim();
             const cashReceived = cashInputRaw !== '' ? (parseFloat(cashInputRaw) || totalToPay) : totalToPay;
             const cardRef = document.getElementById('cardAuthRef')?.value || `AUTH-${Date.now()}`;
             const digitalRef = currentPaymentMethod === 'cash' ? null : (currentPaymentMethod === 'card' ? cardRef : `QR-${Date.now()}`);
@@ -1631,10 +1671,10 @@
 
             const payload = {
                 order_type: activeOrderType,
-                table_number: document.getElementById('orderTableNumber').value.trim() || null,
-                customer_id: document.getElementById('selectedCustomerId').value ? parseInt(document.getElementById('selectedCustomerId').value) : null,
-                promotion_id: document.getElementById('selectedPromotionId').value ? parseInt(document.getElementById('selectedPromotionId').value) : null,
-                loyalty_reward_id: document.getElementById('selectedLoyaltyRewardId').value ? parseInt(document.getElementById('selectedLoyaltyRewardId').value) : null,
+                table_number: (document.getElementById('orderTableNumber')?.value || '').trim() || null,
+                customer_id: document.getElementById('selectedCustomerId')?.value ? parseInt(document.getElementById('selectedCustomerId').value) : null,
+                promotion_id: document.getElementById('selectedPromotionId')?.value ? parseInt(document.getElementById('selectedPromotionId').value) : null,
+                loyalty_reward_id: document.getElementById('selectedLoyaltyRewardId')?.value ? parseInt(document.getElementById('selectedLoyaltyRewardId').value) : null,
                 items: payloadItems,
                 payments: [{
                     method: currentPaymentMethod,
@@ -1649,6 +1689,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                     },
                     body: JSON.stringify(payload)
@@ -1662,9 +1703,12 @@
                     clearCart();
                     detachCustomer();
                     removeAppliedPromo();
-                    document.getElementById('orderTableNumber').value = '';
-                    document.getElementById('cashReceivedInput').value = '';
-                    document.getElementById('cashChangeDisplay').innerText = '$0.00';
+                    const tableInput = document.getElementById('orderTableNumber');
+                    if (tableInput) tableInput.value = '';
+                    const cashInput = document.getElementById('cashReceivedInput');
+                    if (cashInput) cashInput.value = '';
+                    const changeDisplay = document.getElementById('cashChangeDisplay');
+                    if (changeDisplay) changeDisplay.innerText = '$0.00';
                     const cardRefEl = document.getElementById('cardAuthRef');
                     if (cardRefEl) cardRefEl.value = 'CARD-AUTH-' + Math.floor(100000 + Math.random() * 900000);
 
@@ -1679,7 +1723,9 @@
                     if (result.receipt_data) {
                         displayReceiptModal(result.receipt_data, result.receipt_url);
                     } else {
-                        fetch("{{ url('/pos/orders') }}/" + result.order.id + "/receipt-data")
+                        fetch("{{ url('/pos/orders') }}/" + result.order.id + "/receipt-data", {
+                            headers: { 'Accept': 'application/json' }
+                        })
                             .then(r => r.json())
                             .then(data => displayReceiptModal(data, result.receipt_url));
                     }
@@ -1696,8 +1742,7 @@
                 alert("Network or Server error during checkout.");
                 console.error(err);
             } finally {
-                btn.disabled = false;
-                btn.innerText = 'Confirm & Complete Order';
+                updateSubmitOrderButton(false, calculatedTotals.total_amount || 0);
             }
         }
 
@@ -1797,11 +1842,7 @@
             if (cardRefEl) cardRefEl.value = 'CARD-AUTH-' + Math.floor(100000 + Math.random() * 900000);
             calculatedTotals = { subtotal: 0, discount_amount: 0, tax_amount: 0, total_amount: 0 };
             updateSummaryDisplay(0, 0, 0);
-            const submitBtn = document.getElementById('btnSubmitOrder');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerText = 'Confirm & Complete Order';
-            }
+            updateSubmitOrderButton(false, 0);
         }
 
         // ================= SIDEBAR RESIZING & COLLAPSE =================

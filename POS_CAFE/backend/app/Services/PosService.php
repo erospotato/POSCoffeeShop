@@ -244,8 +244,8 @@ class PosService
         $date = now()->format('Ymd');
         $prefix = SystemSetting::get('order_prefix', 'ORD');
 
-        // Lock latest order for today to prevent collision
-        $latestOrder = Order::whereDate('created_at', now()->toDateString())
+        // Query the latest order matching the prefix and date
+        $latestOrder = Order::where('order_number', 'LIKE', "{$prefix}-{$date}-%")
             ->lockForUpdate()
             ->latest('id')
             ->first();
@@ -255,6 +255,13 @@ class PosService
             $sequence = ((int) $matches[1]) + 1;
         }
 
-        return sprintf('%s-%s-%04d', $prefix, $date, $sequence);
+        // Ensure collision-proof uniqueness
+        $orderNumber = sprintf('%s-%s-%04d', $prefix, $date, $sequence);
+        while (Order::where('order_number', $orderNumber)->exists()) {
+            $sequence++;
+            $orderNumber = sprintf('%s-%s-%04d', $prefix, $date, $sequence);
+        }
+
+        return $orderNumber;
     }
 }
