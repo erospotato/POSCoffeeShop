@@ -56,8 +56,8 @@
             </a>
             <div class="h-4 w-px bg-slate-700"></div>
             <div class="flex items-center space-x-2">
-                <div class="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center text-sm font-bold text-slate-950 shadow-xs">
-                    ☕
+                <div class="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center text-slate-950 shadow-xs">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M2 21h18v-2H2v2zm2-4h14a1 1 0 001-1v-4a1 1 0 00-1-1H4v5a1 1 0 001 1zm16-8h-2V5c0-1.1-.9-2-2-2H4C2.9 3 2 3.9 2 5v9c0 2.2 1.8 4 4 4h10c2.2 0 4-1.8 4-4v-1h2c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-2 3v-1h2v1h-2z"/></svg>
                 </div>
                 <h1 class="text-sm font-black tracking-tight text-white">Artisan Roastery & Café POS</h1>
             </div>
@@ -79,7 +79,7 @@
                     <span class="w-2 h-2 rounded-full bg-amber-400"></span>
                     <span class="font-bold">No Active Shift</span>
                     <button type="button" onclick="openStartShiftModal()" class="ml-1.5 px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-lg text-[10px] shadow-sm transition">
-                        ▶ Start Shift
+                        Start Shift
                     </button>
                 </div>
             @endif
@@ -96,8 +96,7 @@
             <!-- Search & Filter Bar -->
             <div class="flex items-center space-x-3 mb-3 shrink-0">
                 <div class="flex-1 relative">
-                    <svg class="w-4 h-4 absolute left-3 top-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="posSearchInput" placeholder="Search coffee, drinks, pastries by name or SKU..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-amber-500 focus:border-amber-500 shadow-xs">
+                    <input type="text" id="posSearchInput" placeholder="Search coffee, drinks, pastries by name or SKU..." class="w-full px-4 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-amber-500 focus:border-amber-500 shadow-xs">
                 </div>
             </div>
 
@@ -191,7 +190,6 @@
                 <div class="p-2.5 bg-white rounded-xl border border-amber-200 shadow-xs space-y-2">
                     <div class="flex items-center justify-between">
                         <span class="text-[10px] font-black uppercase tracking-wider text-amber-700 flex items-center space-x-1">
-                            <span>⭐</span>
                             <span>Customer Loyalty Program</span>
                         </span>
                         <button type="button" onclick="openQuickNewCustomerModal()" class="text-[10px] font-bold text-amber-600 hover:text-amber-800 underline">
@@ -202,14 +200,14 @@
                     <!-- Search / Scan Input (Suggests members on click/focus) -->
                     <div class="relative">
                         <input type="text" id="customerSearchScanInput"
-                               placeholder="🔍 Scan card or click to pick member..."
+                               placeholder="Scan card or search member name / phone..."
                                onfocus="onCustomerSearchFocus()"
                                onclick="onCustomerSearchFocus()"
                                oninput="onCustomerSearchInput(this.value)"
                                onkeydown="handleCustomerScanKey(event)"
-                               class="w-full pl-2.5 pr-8 py-1.5 bg-amber-50/40 border border-amber-300 rounded-lg text-xs focus:ring-amber-500 focus:border-amber-500">
-                        <button type="button" onclick="triggerScanSimulation()" title="Simulate Barcode / Loyalty Card Scan" class="absolute right-2 top-2 text-slate-400 hover:text-amber-600 text-xs">
-                            📷
+                               class="w-full pl-3 pr-14 py-1.5 bg-amber-50/40 border border-amber-300 rounded-lg text-xs focus:ring-amber-500 focus:border-amber-500">
+                        <button type="button" onclick="triggerScanSimulation()" title="Simulate Barcode / Loyalty Card Scan" class="absolute right-2 top-1.5 text-[10px] font-bold text-amber-700 hover:text-amber-900 bg-amber-100 hover:bg-amber-200 px-2 py-0.5 rounded transition">
+                            Scan
                         </button>
 
                         <!-- Autocomplete Suggestions Dropdown -->
@@ -225,11 +223,11 @@
                             </div>
                             <div class="text-right">
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-200 text-amber-900" id="activeCustomerPointsBadge">
-                                    ⭐ 0 pts
+                                    0 pts
                                 </span>
                                 <div class="flex items-center justify-end space-x-2 mt-0.5">
-                                    <a id="activeCustomerHistoryLink" href="#" target="_blank" class="text-[10px] font-bold text-amber-700 hover:text-amber-900 hover:underline">📜 History</a>
-                                    <button type="button" onclick="detachCustomer()" class="text-[10px] text-rose-500 hover:underline">✕ Remove</button>
+                                    <a id="activeCustomerHistoryLink" href="#" target="_blank" class="text-[10px] font-bold text-amber-700 hover:text-amber-900 hover:underline">History</a>
+                                    <button type="button" onclick="detachCustomer()" class="text-[10px] text-rose-500 hover:underline">Remove</button>
                                 </div>
                             </div>
                         </div>
@@ -257,7 +255,9 @@
             <!-- Cart Items List Container -->
             <div class="flex-1 p-3.5 space-y-2 overflow-y-auto min-h-[160px]" id="cartScrollContainer">
                 <div class="py-16 text-center text-slate-400 text-xs" id="emptyCartMessage">
-                    <div class="text-3xl mb-2">☕</div>
+                    <div class="w-12 h-12 mx-auto mb-2 text-slate-300 flex items-center justify-center">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    </div>
                     Your order ticket is currently empty.<br>Click any drink or pastry to add to order.
                 </div>
                 <div id="cartItemsList" class="space-y-2"></div>
@@ -283,7 +283,7 @@
                 <div id="promoChipsContainer" class="flex flex-wrap gap-1 pt-1">
                     @foreach($promotions as $promo)
                         <button type="button" onclick="selectPromoDirect({{ $promo->id }}, '{{ $promo->code }}')" class="promo-chip text-[10px] font-bold px-2 py-0.5 rounded-md bg-white border border-slate-200 hover:border-amber-400 text-slate-700 transition flex items-center space-x-1" data-promo-id="{{ $promo->id }}">
-                            <span>🏷️ {{ $promo->code }}</span>
+                            <span class="font-mono text-amber-700 font-bold">{{ $promo->code }}</span>
                             <span class="text-slate-400">({{ $promo->type === 'percentage' ? $promo->value.'%' : '$'.$promo->value }} off)</span>
                         </button>
                     @endforeach
@@ -334,7 +334,7 @@
 
     <!-- Floating Expand Sidebar Button (when sidebar is collapsed) -->
     <button id="floatingOpenSidebarBtn" type="button" onclick="toggleSidebarCollapse()" class="hidden fixed right-6 bottom-6 z-40 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-2.5 transition active:scale-95 border-2 border-white">
-        <span class="text-xl">🛒</span>
+        <svg class="w-5 h-5 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
         <span class="text-xs font-black">View Order</span>
         <span id="floatingCartCount" class="bg-slate-900 text-white text-xs px-2 py-0.5 rounded-full font-mono font-bold">0</span>
         <span id="floatingCartTotal" class="font-mono text-sm font-black">$0.00</span>
@@ -413,7 +413,7 @@
             <!-- Footer options -->
             <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
                 <button type="button" onclick="openFullCustomizationFromQuick()" class="text-amber-600 font-bold hover:underline flex items-center space-x-1">
-                    <span>⚙️ Custom Syrups & Notes</span>
+                    <span>Custom Syrups & Notes</span>
                 </button>
                 <button type="button" onclick="closeQuickVariantModal()" class="text-slate-400 hover:text-slate-600 font-semibold px-2 py-1">
                     Cancel
@@ -450,15 +450,15 @@
             <div class="p-5 space-y-4">
                 <div class="grid grid-cols-3 gap-2">
                     <button type="button" onclick="selectPaymentMethod('cash', this)" class="pay-method-tab active py-3 px-2 rounded-2xl text-xs font-black bg-amber-500 text-white shadow-md flex flex-col items-center justify-center space-y-1 transition">
-                        <span class="text-xl">💵</span>
+                        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                         <span>Cash</span>
                     </button>
                     <button type="button" onclick="selectPaymentMethod('card', this)" class="pay-method-tab py-3 px-2 rounded-2xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex flex-col items-center justify-center space-y-1 transition">
-                        <span class="text-xl">💳</span>
+                        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                         <span>Credit / Debit Card</span>
                     </button>
                     <button type="button" onclick="selectPaymentMethod('qr_code', this)" class="pay-method-tab py-3 px-2 rounded-2xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 flex flex-col items-center justify-center space-y-1 transition">
-                        <span class="text-xl">📱</span>
+                        <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                         <span>QR Code / Mobile</span>
                     </button>
                 </div>
@@ -513,8 +513,8 @@
                 <!-- 2. Realistic Card Terminal Simulator -->
                 <div id="payCardSection" class="hidden space-y-3">
                     <div class="p-5 rounded-2xl bg-slate-900 text-white border border-slate-700 flex flex-col items-center justify-center text-center space-y-2">
-                        <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl font-bold animate-pulse">
-                            💳
+                        <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                         </div>
                         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">EMV / Contactless Card Reader</span>
                         <p class="text-xs text-slate-300">Tap contactless card / Apple Pay, or insert chip card.</p>
@@ -587,7 +587,6 @@
             <!-- Authentic Thermal Paper Receipt -->
             <div class="thermal-receipt w-full p-6 text-slate-900 rounded-t-2xl border-t-4 border-amber-500">
                 <div class="text-center pb-3 border-b border-dashed border-slate-300">
-                    <div class="w-8 h-8 rounded-full bg-slate-900 text-amber-400 flex items-center justify-center font-bold text-sm mx-auto mb-1">☕</div>
                     <h2 class="text-base font-black uppercase tracking-tight" id="receiptStoreName">Artisan Roastery & Café</h2>
                     <p class="text-[10px] text-slate-500" id="receiptStoreAddress">No. 88 Heritage Blvd</p>
                     <p class="text-[10px] text-slate-500" id="receiptStorePhone">Tel: +855 23 888 999</p>
@@ -680,12 +679,10 @@
 
             <!-- Receipt Actions -->
             <div class="mt-4 flex items-center space-x-3 w-full">
-                <a id="receiptPrintLink" href="#" target="_blank" class="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-xs transition text-center shadow-md flex items-center justify-center space-x-1.5">
-                    <span>🖨️</span>
+                <a id="receiptPrintLink" href="#" target="_blank" class="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl text-xs transition text-center shadow-md flex items-center justify-center">
                     <span>Print Receipt</span>
                 </a>
-                <button onclick="resetPosForNextOrder()" class="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-2xl text-xs transition text-center shadow-md flex items-center justify-center space-x-1.5">
-                    <span>✨</span>
+                <button onclick="resetPosForNextOrder()" class="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-2xl text-xs transition text-center shadow-md flex items-center justify-center">
                     <span>Next Order</span>
                 </button>
             </div>
@@ -725,7 +722,7 @@
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 flex flex-col space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center space-x-2">
-                    <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center font-bold">⏱️</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
                     <h3 class="text-sm font-extrabold text-slate-900">Start Cashier Shift</h3>
                 </div>
                 <button type="button" onclick="closeStartShiftModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-base">&times;</button>
@@ -770,7 +767,7 @@
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 flex flex-col space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center space-x-2">
-                    <span class="w-7 h-7 rounded-lg bg-rose-500 text-white flex items-center justify-center font-bold">🛑</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
                     <h3 class="text-sm font-extrabold text-slate-900">End Cashier Shift #{{ $activeShift->id }}</h3>
                 </div>
                 <button type="button" onclick="closeEndShiftModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-base">&times;</button>
@@ -892,7 +889,7 @@
             );
         }
 
-        // Fast lookup and add by product ID
+        // Fast lookup and add by product ID (Opens Customization Modal with Variants & Notes at once)
         function selectProductById(productId) {
             const product = allProductsCatalog[productId];
             if (product) selectProduct(product);
@@ -900,60 +897,13 @@
 
         function quickAddProductById(productId) {
             const product = allProductsCatalog[productId];
-            if (!product) return;
-
-            // If product has multiple variants (e.g. Classic Americano: Hot or Iced), prompt the cashier!
-            if (product.active_variants && product.active_variants.length > 1) {
-                openQuickVariantModal(product);
-                return;
-            }
-
-            // Otherwise, single variant or no variants: quick add directly
-            quickAddProduct(product);
+            if (product) selectProduct(product);
         }
 
-        // Quick Temperature / Variant Choice Modal Logic (Clean text without emojis)
         let quickVariantProduct = null;
 
-        function getVariantIcon(variantName) {
-            return '';
-        }
-
-        function openQuickVariantModal(product) {
-            quickVariantProduct = product;
-            document.getElementById('quickVarModalName').innerText = product.name;
-            document.getElementById('quickVarModalCategory').innerText = product.category?.name || 'Drink';
-            document.getElementById('quickVarModalImage').src = product.image_path || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80';
-
-            const tiles = document.getElementById('quickVariantTiles');
-            tiles.innerHTML = '';
-
-            (product.active_variants || []).forEach(v => {
-                const mod = parseFloat(v.price_modifier);
-                const finalPrice = (parseFloat(product.base_price) + mod).toFixed(2);
-
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'w-full p-3.5 rounded-2xl border-2 border-slate-200 hover:border-amber-500 hover:bg-amber-50/60 active:scale-[0.98] transition flex items-center justify-between text-left group shadow-xs';
-                btn.onclick = () => addVariantDirectly(product, v);
-                btn.innerHTML = `
-                    <div>
-                        <span class="font-extrabold text-sm text-slate-900 group-hover:text-amber-700 block">${v.name}</span>
-                        <span class="text-[10px] text-slate-400 font-medium">Standard recipe</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-base font-black text-amber-600 font-mono block">$${finalPrice}</span>
-                        ${mod > 0 ? `<span class="text-[10px] text-slate-400 font-mono">(+$${mod.toFixed(2)})</span>` : ''}
-                    </div>
-                `;
-                tiles.appendChild(btn);
-            });
-
-            document.getElementById('quickVariantModal').classList.remove('hidden');
-        }
-
         function closeQuickVariantModal() {
-            document.getElementById('quickVariantModal').classList.add('hidden');
+            document.getElementById('quickVariantModal')?.classList.add('hidden');
             quickVariantProduct = null;
         }
 
@@ -1019,7 +969,7 @@
             renderCart();
         }
 
-        // Product Selection (Opens customization modal if variants/addons exist)
+        // Product Selection (Opens customization modal with Variants & Custom Notes at once)
         function selectProduct(product) {
             currentModalProduct = product;
             selectedVariantId = null;
@@ -1033,14 +983,7 @@
             const modalImg = document.getElementById('modalProductImage');
             modalImg.src = product.image_path || 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80';
 
-            // If no variants and no addons, add directly and increment if already present
-            if ((!product.active_variants || product.active_variants.length === 0) &&
-                (!product.active_addons || product.active_addons.length === 0)) {
-                quickAddProduct(product);
-                return;
-            }
-
-            // Populate Variants
+            // Populate Variants / Sizes
             const varContainer = document.getElementById('modalVariantsContainer');
             const varList = document.getElementById('modalVariantsList');
             varList.innerHTML = '';
@@ -1052,12 +995,12 @@
                     const mod = parseFloat(v.price_modifier);
                     const modText = mod > 0 ? `(+$${mod.toFixed(2)})` : '';
                     varList.innerHTML += `
-                        <label class="p-2.5 rounded-xl border border-slate-200 cursor-pointer flex items-center justify-between text-xs hover:border-amber-400">
+                        <label class="p-2.5 rounded-xl border-2 cursor-pointer flex items-center justify-between text-xs transition ${idx === 0 ? 'border-amber-500 bg-amber-50/50 text-amber-950 font-bold' : 'border-slate-200 hover:border-amber-400 bg-white text-slate-800 font-medium'}">
                             <div class="flex items-center">
                                 <input type="radio" name="variant_choice" value="${v.id}" ${idx === 0 ? 'checked' : ''} onchange="updateVariantSelection(${v.id})" class="text-amber-500 focus:ring-amber-400 mr-2">
-                                <span class="font-bold text-slate-800">${v.name}</span>
+                                <span>${v.name}</span>
                             </div>
-                            <span class="text-amber-600 font-semibold text-[11px]">${modText}</span>
+                            <span class="text-amber-600 font-bold text-[11px]">${modText}</span>
                         </label>
                     `;
                 });
@@ -1097,6 +1040,14 @@
 
         function updateVariantSelection(variantId) {
             selectedVariantId = variantId;
+            document.querySelectorAll('#modalVariantsList label').forEach(lbl => {
+                const input = lbl.querySelector('input');
+                if (input && parseInt(input.value) === variantId) {
+                    lbl.className = 'p-2.5 rounded-xl border-2 border-amber-500 bg-amber-50/50 text-amber-950 font-bold cursor-pointer flex items-center justify-between text-xs transition';
+                } else {
+                    lbl.className = 'p-2.5 rounded-xl border-2 border-slate-200 hover:border-amber-400 bg-white text-slate-800 font-medium cursor-pointer flex items-center justify-between text-xs transition';
+                }
+            });
             updateModalPrice();
         }
 
@@ -1305,7 +1256,7 @@
 
             suggestions.innerHTML = '';
             if (query.length === 0) {
-                suggestions.innerHTML = `<div class="px-2.5 py-1 text-[9px] font-black uppercase text-amber-800 bg-amber-100/70 border-b border-amber-200">⭐ Loyalty Members (Click to select)</div>`;
+                suggestions.innerHTML = `<div class="px-2.5 py-1 text-[9px] font-black uppercase text-amber-800 bg-amber-100/70 border-b border-amber-200">Loyalty Members (Click to select)</div>`;
             }
 
             matches.slice(0, 8).forEach(cust => {
@@ -1321,7 +1272,7 @@
                         <span class="text-[10px] text-slate-500 font-mono">${cust.phone || 'No phone'}</span>
                     </div>
                     <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800">
-                        ⭐ ${cust.points_balance} pts
+                        ${cust.points_balance} pts
                     </span>
                 `;
                 suggestions.appendChild(item);
@@ -1368,7 +1319,7 @@
 
             document.getElementById('activeCustomerName').innerText = cust.name;
             document.getElementById('activeCustomerPhone').innerText = `Phone: ${cust.phone || 'N/A'}`;
-            document.getElementById('activeCustomerPointsBadge').innerText = `⭐ ${cust.points_balance} pts`;
+            document.getElementById('activeCustomerPointsBadge').innerText = `${cust.points_balance} pts`;
 
             const historyLink = document.getElementById('activeCustomerHistoryLink');
             if (historyLink) {
@@ -1533,7 +1484,15 @@
         function openPaymentModal() {
             if (cart.length === 0) return;
 
-            const total = calculatedTotals.total_amount;
+            let total = calculatedTotals.total_amount;
+            if (!total || total <= 0) {
+                let sum = 0;
+                cart.forEach(it => { sum += (it.unit_price * (parseInt(it.quantity) || 1)); });
+                const disc = calculatedTotals.discount_amount || 0;
+                total = Math.max(0, Math.round((sum - disc) * 100) / 100);
+                calculatedTotals.total_amount = total;
+            }
+
             document.getElementById('payModalAmountDue').innerText = '$' + total.toFixed(2);
             document.getElementById('btnSubmitOrderTotal').innerText = '$' + total.toFixed(2);
             document.getElementById('qrAmountDisplay').innerText = '$' + total.toFixed(2);
@@ -1541,6 +1500,17 @@
             document.getElementById('cashReceivedInput').value = '';
             document.getElementById('cashChangeDisplay').innerText = '$0.00';
             cashInputFresh = true;
+
+            // Generate fresh random card authorization ref
+            const cardRefEl = document.getElementById('cardAuthRef');
+            if (cardRefEl) cardRefEl.value = 'CARD-AUTH-' + Math.floor(100000 + Math.random() * 900000);
+
+            // Re-enable and reset submit button state
+            const submitBtn = document.getElementById('btnSubmitOrder');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Confirm & Complete Order';
+            }
 
             // Customer info on payment modal
             if (selectedCustomer) {
@@ -1812,17 +1782,27 @@
         }
 
         function resetPosForNextOrder() {
-            document.getElementById('receiptModal').classList.add('hidden');
+            document.getElementById('receiptModal')?.classList.add('hidden');
+            document.getElementById('paymentModal')?.classList.add('hidden');
+            document.getElementById('customizationModal')?.classList.add('hidden');
             clearCart();
             detachCustomer();
             removeAppliedPromo();
-            document.getElementById('orderTableNumber').value = '';
-            document.getElementById('cashReceivedInput').value = '';
-            document.getElementById('cashChangeDisplay').innerText = '$0.00';
+            const tableInput = document.getElementById('orderTableNumber');
+            if (tableInput) tableInput.value = '';
+            const cashInput = document.getElementById('cashReceivedInput');
+            if (cashInput) cashInput.value = '';
+            const changeDisplay = document.getElementById('cashChangeDisplay');
+            if (changeDisplay) changeDisplay.innerText = '$0.00';
             const cardRefEl = document.getElementById('cardAuthRef');
             if (cardRefEl) cardRefEl.value = 'CARD-AUTH-' + Math.floor(100000 + Math.random() * 900000);
             calculatedTotals = { subtotal: 0, discount_amount: 0, tax_amount: 0, total_amount: 0 };
             updateSummaryDisplay(0, 0, 0);
+            const submitBtn = document.getElementById('btnSubmitOrder');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Confirm & Complete Order';
+            }
         }
 
         // ================= SIDEBAR RESIZING & COLLAPSE =================

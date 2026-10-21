@@ -43,6 +43,8 @@ class IngredientController extends Controller
         $data = $request->validated();
         $data['is_active'] = $request->boolean('is_active', true);
         $data['current_stock'] = (float) ($data['current_stock'] ?? 0);
+        $data['cost_per_unit'] = (float) ($data['cost_per_unit'] ?? 0);
+        $data['min_stock_alert'] = (float) ($data['min_stock_alert'] ?? 0);
 
         $ingredient = Ingredient::create($data);
         AuditService::log('ingredient_created', $ingredient);
@@ -59,6 +61,8 @@ class IngredientController extends Controller
     {
         $data = $request->validated();
         $data['is_active'] = $request->boolean('is_active', false);
+        $data['cost_per_unit'] = isset($data['cost_per_unit']) && $data['cost_per_unit'] !== '' ? (float) $data['cost_per_unit'] : (float) $ingredient->cost_per_unit;
+        $data['min_stock_alert'] = (float) ($data['min_stock_alert'] ?? 0);
 
         $ingredient->update($data);
         AuditService::log('ingredient_updated', $ingredient);

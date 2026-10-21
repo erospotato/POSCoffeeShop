@@ -90,9 +90,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/reports/export-csv-download', [ReportController::class, 'exportCsv'])->name('reports.export-csv');
     });
 
+    // Employee & Staff Management (Admin and Manager)
+    Route::middleware(['role:admin,manager'])->group(function () {
+        Route::resource('staff', StaffController::class);
+    });
+
     // System Administration & Settings (Admin only)
     Route::middleware(['role:admin'])->group(function () {
-        Route::resource('staff', StaffController::class);
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
         Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');

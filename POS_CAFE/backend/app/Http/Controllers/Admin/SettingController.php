@@ -11,7 +11,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $settings = SystemSetting::all()->groupBy('group');
+        $settings = SystemSetting::all()->keyBy('key');
         return view('settings.index', compact('settings'));
     }
 

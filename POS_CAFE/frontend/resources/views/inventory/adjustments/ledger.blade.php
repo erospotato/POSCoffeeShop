@@ -65,11 +65,19 @@
                                     {{ strtoupper(str_replace('_', ' ', $m->movement_type)) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-3 text-slate-500">{{ number_format($m->previous_stock, 1) }} {{ $m->ingredient->unit }}</td>
+                            @php
+                                $prevVal = (float)$m->previous_stock;
+                                $deltaVal = (float)$m->quantity;
+                                $newVal = (float)$m->new_stock;
+                                $prevDisp = ($prevVal == (int)$prevVal) ? (int)$prevVal : rtrim(rtrim(number_format($prevVal, 2), '0'), '.');
+                                $deltaDisp = ($deltaVal == (int)$deltaVal) ? (int)$deltaVal : rtrim(rtrim(number_format($deltaVal, 2), '0'), '.');
+                                $newDisp = ($newVal == (int)$newVal) ? (int)$newVal : rtrim(rtrim(number_format($newVal, 2), '0'), '.');
+                            @endphp
+                            <td class="px-6 py-3 text-slate-500">{{ $prevDisp }} {{ $m->ingredient->unit }}</td>
                             <td class="px-6 py-3 font-bold {{ $m->quantity > 0 ? 'text-emerald-600' : 'text-rose-600' }}">
-                                {{ $m->quantity > 0 ? '+' : '' }}{{ number_format($m->quantity, 1) }} {{ $m->ingredient->unit }}
+                                {{ $m->quantity > 0 ? '+' : '' }}{{ $deltaDisp }} {{ $m->ingredient->unit }}
                             </td>
-                            <td class="px-6 py-3 font-black text-slate-900">{{ number_format($m->new_stock, 1) }} {{ $m->ingredient->unit }}</td>
+                            <td class="px-6 py-3 font-black text-slate-900">{{ $newDisp }} {{ $m->ingredient->unit }}</td>
                             <td class="px-6 py-3 font-sans text-slate-600">{{ $m->user?->name ?? 'System' }}</td>
                             <td class="px-6 py-3 font-sans text-slate-500 max-w-xs truncate">{{ $m->reason }}</td>
                         </tr>

@@ -8,22 +8,22 @@ class UserPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isManager();
     }
 
     public function view(User $user, User $model): bool
     {
-        return $user->isAdmin() || $user->id === $model->id;
+        return $user->isAdmin() || $user->isManager() || $user->id === $model->id;
     }
 
     public function create(User $user): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isManager();
     }
 
     public function update(User $user, User $model): bool
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isManager();
     }
 
     public function changeRole(User $user, User $model): bool

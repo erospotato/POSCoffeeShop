@@ -28,27 +28,31 @@
                         <option value="Bag" {{ strcasecmp($ingredient->unit, 'Bag') === 0 ? 'selected' : '' }}>Bag (e.g. Coffee Beans)</option>
                         <option value="Tin" {{ strcasecmp($ingredient->unit, 'Tin') === 0 ? 'selected' : '' }}>Tin / Can (e.g. Matcha Powder, Tea)</option>
                         <option value="Box" {{ strcasecmp($ingredient->unit, 'Box') === 0 ? 'selected' : '' }}>Box (e.g. Bakery Dough, Pastries)</option>
-                        <option value="pcs" {{ strcasecmp($ingredient->unit, 'pcs') === 0 ? 'selected' : '' }}>Pieces / Units (pcs)</option>
+                        <option value="Packs" {{ strcasecmp($ingredient->unit, 'Packs') === 0 ? 'selected' : '' }}>Packs</option>
+                        <option value="pcs" {{ strcasecmp($ingredient->unit, 'pcs') === 0 ? 'selected' : '' }}>Pieces (pcs)</option>
                         <option value="kg" {{ strcasecmp($ingredient->unit, 'kg') === 0 ? 'selected' : '' }}>Kilograms (kg)</option>
                         <option value="L" {{ strcasecmp($ingredient->unit, 'L') === 0 ? 'selected' : '' }}>Liters (L)</option>
-                        <option value="g" {{ strcasecmp($ingredient->unit, 'g') === 0 ? 'selected' : '' }}>Grams (g)</option>
-                        <option value="ml" {{ strcasecmp($ingredient->unit, 'ml') === 0 ? 'selected' : '' }}>Milliliters (ml)</option>
                     </select>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cost Per Unit ($) *</label>
-                    <input type="number" step="0.0001" name="cost_per_unit" value="{{ old('cost_per_unit', $ingredient->cost_per_unit) }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-mono">
-                </div>
+                <input type="hidden" name="cost_per_unit" value="{{ old('cost_per_unit', $ingredient->cost_per_unit) }}">
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Current Stock Count</label>
-                    <input type="number" step="0.001" name="current_stock" value="{{ old('current_stock', $ingredient->current_stock) }}" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold">
+                    @php
+                        $curStock = (float)$ingredient->current_stock;
+                        $formattedCurStock = ($curStock == (int)$curStock) ? (int)$curStock : rtrim(rtrim(number_format($curStock, 2), '0'), '.');
+                    @endphp
+                    <input type="number" step="0.01" name="current_stock" value="{{ old('current_stock', $formattedCurStock) }}" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Low-Stock Alert Level *</label>
-                    <input type="number" step="0.001" name="min_stock_alert" value="{{ old('min_stock_alert', $ingredient->min_stock_alert) }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold text-rose-600">
+                    @php
+                        $curAlert = (float)$ingredient->min_stock_alert;
+                        $formattedCurAlert = ($curAlert == (int)$curAlert) ? (int)$curAlert : rtrim(rtrim(number_format($curAlert, 2), '0'), '.');
+                    @endphp
+                    <input type="number" step="0.01" name="min_stock_alert" value="{{ old('min_stock_alert', $formattedCurAlert) }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold text-rose-600">
                 </div>
             </div>
 

@@ -27,27 +27,23 @@
                         <option value="Bag">Bag (e.g. Coffee Beans)</option>
                         <option value="Tin">Tin / Can (e.g. Matcha Powder, Tea)</option>
                         <option value="Box">Box (e.g. Bakery Dough, Pastries)</option>
-                        <option value="pcs">Pieces / Units (pcs)</option>
+                        <option value="Packs">Packs (e.g. Cups, Lids)</option>
+                        <option value="pcs">Pieces (pcs)</option>
                         <option value="kg">Kilograms (kg)</option>
                         <option value="L">Liters (L)</option>
-                        <option value="g">Grams (g)</option>
-                        <option value="ml">Milliliters (ml)</option>
                     </select>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cost Per Unit ($) *</label>
-                    <input type="number" step="0.0001" name="cost_per_unit" value="{{ old('cost_per_unit', '4.50') }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-mono">
-                </div>
+                <input type="hidden" name="cost_per_unit" value="{{ old('cost_per_unit', '0.00') }}">
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Initial Stock Count</label>
-                    <input type="number" step="0.01" name="current_stock" value="{{ old('current_stock', '10.00') }}" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold">
+                    <input type="number" step="0.01" name="current_stock" value="{{ old('current_stock', '10') }}" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold">
                 </div>
 
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Low-Stock Alert Level *</label>
-                    <input type="number" step="0.01" name="min_stock_alert" value="{{ old('min_stock_alert', '2.00') }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold text-rose-600">
+                    <input type="number" step="0.01" name="min_stock_alert" value="{{ old('min_stock_alert', '2') }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold text-rose-600">
                 </div>
             </div>
 

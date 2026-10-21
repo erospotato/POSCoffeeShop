@@ -18,7 +18,11 @@
                     <select name="ingredient_id" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl">
                         <option value="">Select ingredient...</option>
                         @foreach($ingredients as $ing)
-                            <option value="{{ $ing->id }}">{{ $ing->name }} (Available: {{ number_format($ing->current_stock, 1) }} {{ $ing->unit }})</option>
+                            @php
+                                $cStock = (float)$ing->current_stock;
+                                $displayStock = ($cStock == (int)$cStock) ? (int)$cStock : rtrim(rtrim(number_format($cStock, 2), '0'), '.');
+                            @endphp
+                            <option value="{{ $ing->id }}">{{ $ing->name }} (Available: {{ $displayStock }} {{ $ing->unit }})</option>
                         @endforeach
                     </select>
                 </div>

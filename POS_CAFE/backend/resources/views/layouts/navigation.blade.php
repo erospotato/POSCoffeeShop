@@ -140,15 +140,24 @@
         </div>
         @endif
 
-        <!-- System Settings -->
+        <!-- Employee & Staff Management (Admin and Manager) -->
+        @if($user && ($user->isAdmin() || $user->isManager()))
+        <div>
+            <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Team & Staff</div>
+            <div class="space-y-1">
+                <a href="{{ route('staff.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('staff.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    Employees & Roles
+                </a>
+            </div>
+        </div>
+        @endif
+
+        <!-- System Administration (Admin only) -->
         @if($user && $user->isAdmin())
         <div>
             <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">System Admin</div>
             <div class="space-y-1">
-                <a href="{{ route('staff.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('staff.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
-                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    Staff & Roles
-                </a>
                 <a href="{{ route('settings.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('settings.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Settings & Tax
