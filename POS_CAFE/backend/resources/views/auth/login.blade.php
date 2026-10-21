@@ -73,47 +73,10 @@
                 </button>
             </div>
         </form>
-
-        <!-- Quick Demo Role Switcher -->
-        <div class="mt-6 pt-5 border-t border-slate-100">
-            <div class="grid grid-cols-4 gap-1.5">
-                <button type="button" onclick="fillCredentials('admin@cafe.com', 'password')" class="py-1.5 px-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition text-center text-[11px]">
-                    Admin
-                </button>
-                <button type="button" onclick="fillCredentials('manager@cafe.com', 'password')" class="py-1.5 px-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition text-center text-[11px]">
-                    Manager
-                </button>
-                <button type="button" onclick="fillCredentials('cashier@cafe.com', 'password')" class="py-1.5 px-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition text-center text-[11px]">
-                    Cashier
-                </button>
-                <button type="button" onclick="fillCredentials('barista@cafe.com', 'password')" class="py-1.5 px-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition text-center text-[11px]">
-                    Barista
-                </button>
-            </div>
-        </div>
     </div>
 
-    <!-- Client-side script for quick credentials & password reveal -->
+    <!-- Client-side script for password reveal -->
     <script>
-        function fillCredentials(email, password) {
-            const emailInput = document.getElementById('email');
-            const passInput = document.getElementById('password');
-
-            emailInput.value = email;
-            passInput.value = password;
-
-            // Flash effect
-            emailInput.classList.add('ring-2', 'ring-amber-400');
-            passInput.classList.add('ring-2', 'ring-amber-400');
-
-            setTimeout(() => {
-                emailInput.classList.remove('ring-2', 'ring-amber-400');
-                passInput.classList.remove('ring-2', 'ring-amber-400');
-            }, 400);
-
-            document.getElementById('btnSignInSubmit')?.focus();
-        }
-
         function togglePasswordVisibility() {
             const input = document.getElementById('password');
             const openIcon = document.getElementById('eyeIconOpen');
