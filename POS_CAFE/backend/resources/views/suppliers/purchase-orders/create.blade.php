@@ -38,22 +38,28 @@
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
                 <div class="flex items-center justify-between mb-3">
                     <div>
-                        <h4 class="font-bold text-slate-900 text-xs">Ordered Ingredients & Quantities</h4>
-                        <p class="text-[11px] text-slate-500">Unit prices will update inventory weighted cost upon receiving</p>
+                        <h4 class="font-bold text-slate-900 text-xs">Ordered Ingredients</h4>
+                        <p class="text-[11px] text-slate-500">Select product ingredient and amount to order</p>
                     </div>
                     <button type="button" onclick="addPoItemRow()" class="text-xs font-bold text-amber-600 hover:text-amber-700">+ Add Ingredient</button>
                 </div>
 
+                <div class="flex items-center space-x-2 mb-1.5 px-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                    <span class="flex-1">Name of the Product</span>
+                    <span class="w-36">Amount</span>
+                    <span class="w-6"></span>
+                </div>
+
                 <div id="poItemsContainer" class="space-y-2">
                     <div class="flex items-center space-x-2">
-                        <select name="items[0][ingredient_id]" required class="flex-2 text-xs px-3 py-1.5 border border-slate-300 rounded-lg">
-                            <option value="">Select ingredient...</option>
+                        <select name="items[0][ingredient_id]" required class="flex-1 text-xs px-3 py-2 border border-slate-300 rounded-lg bg-white">
+                            <option value="">Select product...</option>
                             @foreach($ingredients as $ing)
-                                <option value="{{ $ing->id }}" data-cost="{{ $ing->cost_per_unit }}">{{ $ing->name }} ({{ $ing->unit }})</option>
+                                <option value="{{ $ing->id }}">{{ $ing->name }} ({{ $ing->unit }})</option>
                             @endforeach
                         </select>
-                        <input type="number" step="0.001" name="items[0][quantity_ordered]" placeholder="Qty" value="1000.0" required class="flex-1 text-xs px-3 py-1.5 border border-slate-300 rounded-lg font-bold">
-                        <input type="number" step="0.0001" name="items[0][unit_price]" placeholder="Cost/Unit ($)" value="0.025" required class="flex-1 text-xs px-3 py-1.5 border border-slate-300 rounded-lg font-mono">
+                        <input type="number" step="0.001" name="items[0][quantity_ordered]" placeholder="Amount" value="10" required class="w-36 text-xs px-3 py-2 border border-slate-300 rounded-lg font-bold">
+                        <div class="w-6"></div>
                     </div>
                 </div>
             </div>
@@ -74,18 +80,17 @@
             const row = document.createElement('div');
             row.className = 'flex items-center space-x-2';
 
-            let options = '<option value="">Select ingredient...</option>';
+            let options = '<option value="">Select product...</option>';
             ingredientsList.forEach(ing => {
                 options += `<option value="${ing.id}">${ing.name} (${ing.unit})</option>`;
             });
 
             row.innerHTML = `
-                <select name="items[${poItemIndex}][ingredient_id]" required class="flex-2 text-xs px-3 py-1.5 border border-slate-300 rounded-lg">
+                <select name="items[${poItemIndex}][ingredient_id]" required class="flex-1 text-xs px-3 py-2 border border-slate-300 rounded-lg bg-white">
                     ${options}
                 </select>
-                <input type="number" step="0.001" name="items[${poItemIndex}][quantity_ordered]" placeholder="Qty" value="500.0" required class="flex-1 text-xs px-3 py-1.5 border border-slate-300 rounded-lg font-bold">
-                <input type="number" step="0.0001" name="items[${poItemIndex}][unit_price]" placeholder="Cost/Unit" value="0.020" required class="flex-1 text-xs px-3 py-1.5 border border-slate-300 rounded-lg font-mono">
-                <button type="button" onclick="this.parentElement.remove()" class="text-rose-500 text-xs px-2 font-bold">&times;</button>
+                <input type="number" step="0.001" name="items[${poItemIndex}][quantity_ordered]" placeholder="Amount" value="5" required class="w-36 text-xs px-3 py-2 border border-slate-300 rounded-lg font-bold">
+                <button type="button" onclick="this.parentElement.remove()" class="w-6 text-rose-500 hover:text-rose-700 text-base font-bold flex items-center justify-center">&times;</button>
             `;
             container.appendChild(row);
             poItemIndex++;

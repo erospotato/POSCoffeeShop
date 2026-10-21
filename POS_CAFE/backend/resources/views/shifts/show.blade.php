@@ -8,6 +8,9 @@
         <div>
             <div class="flex items-center space-x-2">
                 <h3 class="text-lg font-bold text-slate-900">Shift #{{ $shift->id }} — {{ $shift->user->name }}</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 font-mono">
+                    {{ $shift->cashier_station ?? 'Cashier 1' }} • {{ $shift->shift_period ?? 'Morning Shift' }}
+                </span>
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold {{ $shift->isOpen() ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700' }}">
                     {{ strtoupper($shift->status) }}
                 </span>

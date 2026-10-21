@@ -40,8 +40,8 @@ class ExpenseController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = $request->user()->id;
-        $data['is_approved'] = $request->user()->isAdmin() || $request->user()->isManager();
-        $data['approved_by'] = $data['is_approved'] ? $request->user()->id : null;
+        $data['is_approved'] = true;
+        $data['approved_by'] = $request->user()->id;
 
         $expense = Expense::create($data);
         AuditService::log('expense_recorded', $expense, null, ['amount' => $expense->amount, 'description' => $expense->description]);

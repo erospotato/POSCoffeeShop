@@ -22,7 +22,7 @@ class StaffController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
+        $roles = auth()->user()->isAdmin() ? Role::all() : Role::where('slug', '!=', 'admin')->get();
         return view('staff.create', compact('roles'));
     }
 

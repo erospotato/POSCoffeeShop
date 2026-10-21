@@ -25,16 +25,27 @@ class SystemSetting extends Model
         });
     }
 
-    public static function set(string $key, mixed $value, string $group = 'general', ?string $description = null): self
+    public static function set(string $key, mixed $value, ?string $group = null, ?string $description = null): self
     {
-        $setting = static::updateOrCreate(
-            ['key' => $key],
-            [
+        $setting = static::where('key', $key)->first();
+
+        if ($setting) {
+            $setting->value = (string) $value;
+            if ($group !== null) {
+                $setting->group = $group;
+            }
+            if ($description !== null) {
+                $setting->description = $description;
+            }
+            $setting->save();
+        } else {
+            $setting = static::create([
+                'key' => $key,
                 'value' => (string) $value,
-                'group' => $group,
+                'group' => $group ?? 'general',
                 'description' => $description,
-            ]
-        );
+            ]);
+        }
 
         Cache::forget("sys_setting_{$key}");
 

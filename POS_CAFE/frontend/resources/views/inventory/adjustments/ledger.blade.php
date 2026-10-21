@@ -39,7 +39,7 @@
                     <tr>
                         <th class="px-6 py-3">Timestamp</th>
                         <th class="px-6 py-3">Ingredient</th>
-                        <th class="px-6 py-3">Movement Type</th>
+                        <th class="px-6 py-3 whitespace-nowrap">Movement Type</th>
                         <th class="px-6 py-3">Previous Stock</th>
                         <th class="px-6 py-3">Quantity Delta</th>
                         <th class="px-6 py-3">New Stock</th>
@@ -50,9 +50,9 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse($movements as $m)
                         <tr class="hover:bg-slate-50/80 transition font-mono">
-                            <td class="px-6 py-3 text-slate-500 font-sans">{{ $m->created_at->format('M d, H:i:s') }}</td>
+                            <td class="px-6 py-3 text-slate-500 font-sans whitespace-nowrap">{{ $m->created_at->format('M d, H:i:s') }}</td>
                             <td class="px-6 py-3 font-bold text-slate-900 font-sans">{{ $m->ingredient->name }}</td>
-                            <td class="px-6 py-3 font-sans">
+                            <td class="px-6 py-3 font-sans whitespace-nowrap">
                                 @php
                                     $badge = match($m->movement_type) {
                                         'order_deduction' => 'bg-indigo-100 text-indigo-800',
@@ -61,15 +61,23 @@
                                         default => 'bg-slate-100 text-slate-700'
                                     };
                                 @endphp
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {{ $badge }}">
+                                <span class="px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap tracking-wide {{ $badge }}">
                                     {{ strtoupper(str_replace('_', ' ', $m->movement_type)) }}
                                 </span>
                             </td>
-                            <td class="px-6 py-3 text-slate-500">{{ number_format($m->previous_stock, 1) }} {{ $m->ingredient->unit }}</td>
+                            @php
+                                $prevVal = (float)$m->previous_stock;
+                                $deltaVal = (float)$m->quantity;
+                                $newVal = (float)$m->new_stock;
+                                $prevDisp = ($prevVal == (int)$prevVal) ? (int)$prevVal : rtrim(rtrim(number_format($prevVal, 2), '0'), '.');
+                                $deltaDisp = ($deltaVal == (int)$deltaVal) ? (int)$deltaVal : rtrim(rtrim(number_format($deltaVal, 2), '0'), '.');
+                                $newDisp = ($newVal == (int)$newVal) ? (int)$newVal : rtrim(rtrim(number_format($newVal, 2), '0'), '.');
+                            @endphp
+                            <td class="px-6 py-3 text-slate-500">{{ $prevDisp }} {{ $m->ingredient->unit }}</td>
                             <td class="px-6 py-3 font-bold {{ $m->quantity > 0 ? 'text-emerald-600' : 'text-rose-600' }}">
-                                {{ $m->quantity > 0 ? '+' : '' }}{{ number_format($m->quantity, 1) }} {{ $m->ingredient->unit }}
+                                {{ $m->quantity > 0 ? '+' : '' }}{{ $deltaDisp }} {{ $m->ingredient->unit }}
                             </td>
-                            <td class="px-6 py-3 font-black text-slate-900">{{ number_format($m->new_stock, 1) }} {{ $m->ingredient->unit }}</td>
+                            <td class="px-6 py-3 font-black text-slate-900">{{ $newDisp }} {{ $m->ingredient->unit }}</td>
                             <td class="px-6 py-3 font-sans text-slate-600">{{ $m->user?->name ?? 'System' }}</td>
                             <td class="px-6 py-3 font-sans text-slate-500 max-w-xs truncate">{{ $m->reason }}</td>
                         </tr>

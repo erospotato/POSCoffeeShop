@@ -128,26 +128,59 @@
 
     <!-- Open Shift Modal -->
     <div id="openShiftModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
-            <h3 class="text-base font-bold text-slate-900 mb-2">Open Cashier Shift</h3>
-            <p class="text-xs text-slate-500 mb-4">Enter the initial opening cash float count in your cash drawer.</p>
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 flex flex-col space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                    <h3 class="text-sm font-extrabold text-slate-900">Choose Cashier Shift</h3>
+                </div>
+                <button type="button" onclick="document.getElementById('openShiftModal').classList.add('hidden')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-base">&times;</button>
+            </div>
 
-            <form method="POST" action="{{ route('shifts.open') }}">
+            <p class="text-xs text-slate-500">Select your station, work period, and verify your starting cash drawer float count.</p>
+
+            <form method="POST" action="{{ route('shifts.open') }}" class="space-y-3">
                 @csrf
-                <div class="mb-4">
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Opening Cash Float ($)</label>
-                    <input type="number" step="0.01" name="opening_cash" value="100.00" required class="w-full text-base font-bold text-slate-900 border-slate-300 rounded-xl focus:ring-amber-500 focus:border-amber-500">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Cashier Station / Register *</label>
+                    <select name="cashier_station" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold bg-white text-slate-800">
+                        <option value="Cashier 1">Cashier 1 (Main Register)</option>
+                        <option value="Cashier 2">Cashier 2 (Express Register)</option>
+                        <option value="Cashier 3">Cashier 3 (Terrace / Drive-thru)</option>
+                    </select>
                 </div>
 
-                <div class="flex items-center justify-end space-x-2">
-                    <button type="button" onclick="document.getElementById('openShiftModal').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Shift Period *</label>
+                    <select name="shift_period" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-bold bg-white text-slate-800">
+                        <option value="Morning">Morning Shift (06:00 - 14:00)</option>
+                        <option value="Evening">Evening Shift (14:00 - 22:00)</option>
+                        <option value="Full Day">Full Day Shift</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Opening Cash Float ($) *</label>
+                    <input type="number" step="0.01" name="opening_cash" value="100.00" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-mono font-bold text-slate-900">
+                </div>
+
+                <div class="pt-2 flex items-center space-x-2">
+                    <button type="button" onclick="document.getElementById('openShiftModal').classList.add('hidden')" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition">
                         Cancel
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl shadow-sm">
+                    <button type="submit" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold rounded-xl text-xs shadow-md transition">
                         Start Shift
                     </button>
                 </div>
             </form>
         </div>
     </div>
+
+    @if(!$activeShift)
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('openShiftModal')?.classList.remove('hidden');
+        });
+    </script>
+    @endif
 </x-app-layout>

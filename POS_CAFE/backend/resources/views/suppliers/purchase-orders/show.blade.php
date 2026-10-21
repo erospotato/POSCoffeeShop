@@ -29,36 +29,37 @@
     <!-- PO Details & Items -->
     <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-8">
         <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-            <h4 class="font-bold text-slate-900 text-sm">Purchase Order Items</h4>
-            <span class="text-xs font-bold text-slate-900">Total: ${{ number_format($purchaseOrder->total_cost, 2) }}</span>
+            <h4 class="font-bold text-slate-900 text-sm">Ordered Ingredients</h4>
+            <span class="text-xs text-slate-500 font-semibold">{{ $purchaseOrder->items->count() }} items</span>
         </div>
 
         <div class="overflow-x-auto">
             <table class="w-full text-xs text-left">
                 <thead class="bg-slate-50 text-slate-500 uppercase text-[10px] border-b border-slate-200">
                     <tr>
-                        <th class="px-6 py-3">Ingredient</th>
-                        <th class="px-6 py-3">Unit Cost</th>
-                        <th class="px-6 py-3">Quantity Ordered</th>
-                        <th class="px-6 py-3">Quantity Received</th>
-                        <th class="px-6 py-3">Remaining to Receive</th>
-                        <th class="px-6 py-3 text-right">Subtotal</th>
+                        <th class="px-6 py-3">Name of the Product</th>
+                        <th class="px-6 py-3">Amount Ordered</th>
+                        <th class="px-6 py-3">Amount Received</th>
+                        <th class="px-6 py-3 text-right">Remaining Amount</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 font-mono">
                     @foreach($purchaseOrder->items as $item)
                         @php
                             $remaining = max(0, (float)$item->quantity_ordered - (float)$item->quantity_received);
+                            $qOrd = (float)$item->quantity_ordered;
+                            $dispOrd = ($qOrd == (int)$qOrd) ? (int)$qOrd : rtrim(rtrim(number_format($qOrd, 2), '0'), '.');
+                            $qRec = (float)$item->quantity_received;
+                            $dispRec = ($qRec == (int)$qRec) ? (int)$qRec : rtrim(rtrim(number_format($qRec, 2), '0'), '.');
+                            $dispRem = ($remaining == (int)$remaining) ? (int)$remaining : rtrim(rtrim(number_format($remaining, 2), '0'), '.');
                         @endphp
                         <tr>
                             <td class="px-6 py-3.5 font-bold font-sans text-slate-900">{{ $item->ingredient->name }}</td>
-                            <td class="px-6 py-3.5 text-slate-700">${{ number_format($item->unit_price, 4) }}</td>
-                            <td class="px-6 py-3.5 font-bold text-slate-900">{{ number_format($item->quantity_ordered, 1) }} {{ $item->ingredient->unit }}</td>
-                            <td class="px-6 py-3.5 text-emerald-600 font-bold">{{ number_format($item->quantity_received, 1) }} {{ $item->ingredient->unit }}</td>
-                            <td class="px-6 py-3.5 {{ $remaining > 0 ? 'text-amber-600' : 'text-slate-400' }} font-bold">
-                                {{ number_format($remaining, 1) }} {{ $item->ingredient->unit }}
+                            <td class="px-6 py-3.5 font-bold text-slate-900">{{ $dispOrd }} {{ $item->ingredient->unit }}</td>
+                            <td class="px-6 py-3.5 text-emerald-600 font-bold">{{ $dispRec }} {{ $item->ingredient->unit }}</td>
+                            <td class="px-6 py-3.5 text-right {{ $remaining > 0 ? 'text-amber-600' : 'text-slate-400' }} font-bold">
+                                {{ $dispRem }} {{ $item->ingredient->unit }}
                             </td>
-                            <td class="px-6 py-3.5 text-right font-black text-slate-900">${{ number_format($item->subtotal, 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -99,11 +100,12 @@
                     @foreach($purchaseOrder->items as $item)
                         @php
                             $rem = max(0, (float)$item->quantity_ordered - (float)$item->quantity_received);
+                            $dispRem = ($rem == (int)$rem) ? (int)$rem : rtrim(rtrim(number_format($rem, 2), '0'), '.');
                         @endphp
                         <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
                             <div>
                                 <span class="font-bold text-xs text-slate-900 block">{{ $item->ingredient->name }}</span>
-                                <span class="text-[10px] text-slate-400">Remaining to receive: {{ number_format($rem, 1) }} {{ $item->ingredient->unit }}</span>
+                                <span class="text-[10px] text-slate-400">Remaining to receive: {{ $dispRem }} {{ $item->ingredient->unit }}</span>
                             </div>
                             <div class="w-32">
                                 <input type="number" step="0.001" name="quantities[{{ $item->id }}]" value="{{ $rem }}" max="{{ $rem }}" class="w-full text-xs px-2.5 py-1.5 font-bold border border-slate-300 rounded-lg">

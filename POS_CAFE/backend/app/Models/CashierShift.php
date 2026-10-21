@@ -13,6 +13,8 @@ class CashierShift extends Model
 
     protected $fillable = [
         'user_id',
+        'cashier_station',
+        'shift_period',
         'opened_at',
         'closed_at',
         'opening_cash',

@@ -70,8 +70,8 @@ class InventoryTest extends TestCase
         $this->coffeeBeans->refresh();
         $this->milk->refresh();
 
-        $this->assertEquals($initialBeansStock - 36.0, (float) $this->coffeeBeans->current_stock);
-        $this->assertEquals($initialMilkStock - 360.0, (float) $this->milk->current_stock);
+        $this->assertEquals(round($initialBeansStock - 0.04, 3), (float) $this->coffeeBeans->current_stock);
+        $this->assertEquals(round($initialMilkStock - 0.10, 3), (float) $this->milk->current_stock);
 
         // Verify ledger movement entry exists
         $movement = InventoryMovement::where('reference_type', 'order')
@@ -80,7 +80,7 @@ class InventoryTest extends TestCase
             ->first();
 
         $this->assertNotNull($movement);
-        $this->assertEquals(-36.0, (float) $movement->quantity);
+        $this->assertEquals(-0.04, (float) $movement->quantity);
     }
 
     public function test_inventory_deduction_is_idempotent(): void
@@ -125,7 +125,7 @@ class InventoryTest extends TestCase
         $inventoryService = app(InventoryService::class);
 
         // Set stock below what order needs
-        $this->coffeeBeans->current_stock = 10.0; // Needs 36g for 2 cappuccinos
+        $this->coffeeBeans->current_stock = 0.01; // Needs 0.04 Bag for 2 cappuccinos
         $this->coffeeBeans->save();
 
         $order = Order::create([
@@ -161,14 +161,14 @@ class InventoryTest extends TestCase
 
         $adjustment = $inventoryService->adjustStock(
             $this->milk,
-            -1000.0, // wasted 1000 ml
+            -2.0, // wasted 2 Gallons
             'spoilage_waste',
-            'Expired milk carton discarded',
+            'Expired milk gallons discarded',
             $this->manager
         );
 
         $this->milk->refresh();
-        $this->assertEquals($initialStock - 1000.0, (float) $this->milk->current_stock);
-        $this->assertEquals(2.00, (float) $adjustment->cost_impact); // 1000ml * $0.0020/ml = $2.00
+        $this->assertEquals($initialStock - 2.0, (float) $this->milk->current_stock);
+        $this->assertEquals(7.60, (float) $adjustment->cost_impact); // 2 gallons * $3.80/gal = $7.60
     }
 }

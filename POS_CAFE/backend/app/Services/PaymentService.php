@@ -70,7 +70,10 @@ class PaymentService
                     $cashChange = round($cashReceived - $amount, 2);
                 }
 
-                $reference = $paymentData['reference'] ?? ('PAY-' . strtoupper(Str::random(10)));
+                $reference = !empty($paymentData['reference']) ? $paymentData['reference'] : ('PAY-' . strtoupper(Str::random(10)));
+                while (Payment::where('transaction_reference', $reference)->exists()) {
+                    $reference .= '-' . strtoupper(Str::random(6));
+                }
 
                 $payment = Payment::create([
                     'order_id' => $order->id,

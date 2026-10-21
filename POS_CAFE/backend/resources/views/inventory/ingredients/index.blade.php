@@ -67,10 +67,8 @@
                         <th class="px-6 py-3">Ingredient Name</th>
                         <th class="px-6 py-3">SKU</th>
                         <th class="px-6 py-3">Unit</th>
-                        <th class="px-6 py-3">Cost / Unit</th>
                         <th class="px-6 py-3">Current Stock</th>
-                        <th class="px-6 py-3">Min Alert</th>
-                        <th class="px-6 py-3">Stock Value</th>
+                        <th class="px-6 py-3">Low-Stock Alert Level</th>
                         <th class="px-6 py-3 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -78,6 +76,10 @@
                     @forelse($ingredients as $ingredient)
                         @php
                             $isLow = (float) $ingredient->current_stock <= (float) $ingredient->min_stock_alert;
+                            $stockNum = (float)$ingredient->current_stock;
+                            $alertNum = (float)$ingredient->min_stock_alert;
+                            $formattedStock = ($stockNum == (int)$stockNum) ? (int)$stockNum : rtrim(rtrim(number_format($stockNum, 2), '0'), '.');
+                            $formattedAlert = ($alertNum == (int)$alertNum) ? (int)$alertNum : rtrim(rtrim(number_format($alertNum, 2), '0'), '.');
                         @endphp
                         <tr class="hover:bg-slate-50/80 transition {{ $isLow ? 'bg-rose-50/30' : '' }}">
                             <td class="px-6 py-3.5 font-bold text-slate-900">
@@ -87,13 +89,11 @@
                                 @endif
                             </td>
                             <td class="px-6 py-3.5 font-mono text-slate-500">{{ $ingredient->sku }}</td>
-                            <td class="px-6 py-3.5 font-semibold text-slate-700 uppercase">{{ $ingredient->unit }}</td>
-                            <td class="px-6 py-3.5 text-slate-700 font-mono">${{ number_format($ingredient->cost_per_unit, 4) }}</td>
+                            <td class="px-6 py-3.5 font-semibold text-slate-700">{{ $ingredient->unit }}</td>
                             <td class="px-6 py-3.5 font-extrabold {{ $isLow ? 'text-rose-600' : 'text-slate-900' }}">
-                                {{ number_format($ingredient->current_stock, 1) }} {{ $ingredient->unit }}
+                                {{ $formattedStock }} {{ $ingredient->unit }}
                             </td>
-                            <td class="px-6 py-3.5 text-slate-500 font-medium">{{ number_format($ingredient->min_stock_alert, 1) }} {{ $ingredient->unit }}</td>
-                            <td class="px-6 py-3.5 font-black text-slate-900">${{ number_format($ingredient->stockValue(), 2) }}</td>
+                            <td class="px-6 py-3.5 text-slate-500 font-medium">{{ $formattedAlert }} {{ $ingredient->unit }}</td>
                             <td class="px-6 py-3.5 text-right space-x-2">
                                 <a href="{{ route('ingredients.edit', $ingredient->id) }}" class="font-bold text-slate-700 hover:text-amber-600">Edit</a>
                                 <form method="POST" action="{{ route('ingredients.destroy', $ingredient->id) }}" class="inline" onsubmit="return confirm('Delete this ingredient?')">

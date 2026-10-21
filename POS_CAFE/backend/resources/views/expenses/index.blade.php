@@ -48,7 +48,6 @@
                         <th class="px-6 py-3">Payment Method</th>
                         <th class="px-6 py-3">Recorded By</th>
                         <th class="px-6 py-3">Amount</th>
-                        <th class="px-6 py-3">Approval</th>
                         <th class="px-6 py-3 text-right">Actions</th>
                     </tr>
                 </thead>
@@ -69,20 +68,6 @@
                             </td>
                             <td class="px-6 py-3.5 text-slate-600">{{ $expense->user?->name ?? 'System' }}</td>
                             <td class="px-6 py-3.5 font-black text-rose-600">${{ number_format($expense->amount, 2) }}</td>
-                            <td class="px-6 py-3.5">
-                                @if($expense->is_approved)
-                                    <span class="inline-flex items-center text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                                        Approved
-                                    </span>
-                                @else
-                                    <form method="POST" action="{{ route('expenses.approve', $expense->id) }}" class="inline">
-                                        @csrf
-                                        <button type="submit" class="px-2 py-0.5 text-[10px] font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-md transition" title="Click to approve">
-                                            Pending (Approve)
-                                        </button>
-                                    </form>
-                                @endif
-                            </td>
                             <td class="px-6 py-3.5 text-right">
                                 <form method="POST" action="{{ route('expenses.destroy', $expense->id) }}" class="inline" onsubmit="return confirm('Delete this expense?');">
                                     @csrf
@@ -93,7 +78,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="px-6 py-12 text-center text-slate-400">No expense records found.</td>
+                            <td colspan="7" class="px-6 py-12 text-center text-slate-400">No expense records found.</td>
                         </tr>
                     @endforelse
                 </tbody>

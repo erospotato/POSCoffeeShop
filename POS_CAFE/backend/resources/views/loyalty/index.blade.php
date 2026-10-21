@@ -15,10 +15,12 @@
                     class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-sm transition">
                 Redeem Reward
             </button>
+            @if(auth()->user()->isAdmin() || auth()->user()->isManager())
             <button onclick="document.getElementById('reward-modal').classList.remove('hidden')"
                     class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs shadow-sm transition">
                 + New Reward
             </button>
+            @endif
         </div>
     </div>
 
@@ -64,7 +66,7 @@
                 </div>
             @empty
                 <div class="col-span-4 bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-400 text-xs">
-                    No rewards configured yet. Click "+ New Reward" to create one.
+                    No rewards configured yet.@if(auth()->user()->isAdmin() || auth()->user()->isManager()) Click "+ New Reward" to create one.@endif
                 </div>
             @endforelse
         </div>
@@ -128,7 +130,8 @@
         @endif
     </div>
 
-    <!-- Modal: Create Reward -->
+    <!-- Modal: Create Reward (Admin / Manager only) -->
+    @if(auth()->user()->isAdmin() || auth()->user()->isManager())
     <div id="reward-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl p-6 border border-slate-200">
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
@@ -202,6 +205,7 @@
             </form>
         </div>
     </div>
+    @endif
 
     <!-- Modal: Redeem Reward -->
     <div id="redeem-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">

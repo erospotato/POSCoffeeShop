@@ -15,9 +15,9 @@ class SupplierRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:150'],
-            'contact_name' => ['nullable', 'string', 'max:120'],
-            'phone' => ['nullable', 'string', 'max:40'],
-            'email' => ['nullable', 'email', 'max:150'],
+            'contact_name' => ['required', 'string', 'max:120'],
+            'phone' => ['required', 'string', 'max:40'],
+            'email' => ['required', 'email', 'max:150'],
             'address' => ['nullable', 'string', 'max:500'],
             'is_active' => ['nullable', 'boolean'],
         ];

@@ -6,18 +6,16 @@
 <!-- Sidebar for desktop -->
 <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-900 text-slate-200 flex flex-col shadow-xl transition-all duration-300">
     <!-- Brand / Café Name -->
-    <div class="h-16 flex items-center px-6 bg-slate-950 border-b border-slate-800">
-        <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-500 flex items-center justify-center text-white shadow-md">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
-                </svg>
+    <div class="h-16 flex items-center px-5 bg-slate-950 border-b border-slate-800">
+        <a href="{{ route('dashboard') }}" class="flex items-center space-x-2.5">
+            <div class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center p-1 shadow-sm">
+                <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="w-full h-full object-contain">
             </div>
             <div>
-                <h1 class="text-sm font-bold text-white tracking-wide leading-tight">Artisan Café</h1>
+                <h1 class="text-sm font-extrabold text-white tracking-wide leading-tight">Veloura Café</h1>
                 <span class="text-[10px] text-amber-400 font-medium uppercase tracking-wider">POS & Management</span>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Navigation Menu Items -->
@@ -67,8 +65,10 @@
                 </a>
             </div>
         </div>
+        @endif
 
-        <!-- Inventory & Procurement -->
+        <!-- Inventory & Stock (Admin, Manager, Barista) -->
+        @if($user && ($user->isAdmin() || $user->isManager() || $user->isBarista()))
         <div>
             <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Inventory & Stock</div>
             <div class="space-y-1">
@@ -88,6 +88,7 @@
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Stock Ledger
                 </a>
+                @if($user && ($user->isAdmin() || $user->isManager()))
                 <a href="{{ route('suppliers.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('suppliers.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                     Suppliers
@@ -96,6 +97,7 @@
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     Purchase Orders
                 </a>
+                @endif
             </div>
         </div>
         @endif
@@ -140,15 +142,24 @@
         </div>
         @endif
 
-        <!-- System Settings -->
+        <!-- Employee & Staff Management (Admin and Manager) -->
+        @if($user && ($user->isAdmin() || $user->isManager()))
+        <div>
+            <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Team & Staff</div>
+            <div class="space-y-1">
+                <a href="{{ route('staff.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('staff.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
+                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    Employees & Roles
+                </a>
+            </div>
+        </div>
+        @endif
+
+        <!-- System Administration (Admin only) -->
         @if($user && $user->isAdmin())
         <div>
             <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">System Admin</div>
             <div class="space-y-1">
-                <a href="{{ route('staff.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('staff.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
-                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                    Staff & Roles
-                </a>
                 <a href="{{ route('settings.index') }}" class="flex items-center px-3 py-2 rounded-lg font-medium transition {{ request()->routeIs('settings.*') ? 'bg-amber-600 text-white shadow-sm' : 'hover:bg-slate-800 text-slate-300' }}">
                     <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Settings & Tax

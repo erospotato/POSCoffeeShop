@@ -26,6 +26,7 @@
                 <div>
                     <div class="flex items-center space-x-2">
                         <h4 class="font-bold text-slate-900 text-sm">Active Shift #{{ $activeShift->id }} ({{ $activeShift->user->name }})</h4>
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900">{{ $activeShift->cashier_station ?? 'Cashier 1' }} • {{ $activeShift->shift_period ?? 'Morning Shift' }}</span>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">CURRENTLY OPEN</span>
                     </div>
                     <p class="text-xs text-slate-500 mt-0.5">
@@ -68,7 +69,10 @@
                     @forelse($shifts as $shift)
                         <tr class="hover:bg-slate-50/80 transition">
                             <td class="px-6 py-3.5 font-bold text-slate-900">#{{ $shift->id }}</td>
-                            <td class="px-6 py-3.5 font-medium text-slate-800">{{ $shift->user->name }}</td>
+                            <td class="px-6 py-3.5 font-medium text-slate-800">
+                                <div>{{ $shift->user->name }}</div>
+                                <span class="text-[10px] text-amber-600 font-bold font-mono">{{ $shift->cashier_station ?? 'Cashier 1' }} • {{ $shift->shift_period ?? 'Morning' }}</span>
+                            </td>
                             <td class="px-6 py-3.5 text-slate-500">{{ $shift->opened_at->format('M d, H:i') }}</td>
                             <td class="px-6 py-3.5 text-slate-500">{{ $shift->closed_at ? $shift->closed_at->format('M d, H:i') : '—' }}</td>
                             <td class="px-6 py-3.5 font-medium text-slate-700">${{ number_format($shift->opening_cash, 2) }}</td>
@@ -121,16 +125,34 @@
     <div id="openShiftModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl">
             <h3 class="text-base font-bold text-slate-900 mb-1">Open Cashier Shift</h3>
-            <p class="text-xs text-slate-500 mb-4">Count and declare the opening cash float in the cash drawer.</p>
+            <p class="text-xs text-slate-500 mb-4">Select station, shift period, and declare opening float.</p>
 
-            <form method="POST" action="{{ route('shifts.open') }}">
+            <form method="POST" action="{{ route('shifts.open') }}" class="space-y-3">
                 @csrf
-                <div class="mb-4">
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Opening Float ($)</label>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Cashier Station</label>
+                    <select name="cashier_station" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl bg-white">
+                        <option value="Cashier 1">Cashier 1 (Main Register)</option>
+                        <option value="Cashier 2">Cashier 2 (Secondary Register)</option>
+                        <option value="Cashier 3">Cashier 3 (Express Bar)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Shift Period</label>
+                    <select name="shift_period" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl bg-white">
+                        <option value="Morning Shift">Morning Shift (06:00 - 14:00)</option>
+                        <option value="Evening Shift">Evening Shift (14:00 - 22:00)</option>
+                        <option value="Full Day Shift">Full Day Shift</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Opening Cash Float ($)</label>
                     <input type="number" step="0.01" name="opening_cash" value="100.00" required class="w-full text-base font-bold text-slate-900 border-slate-300 rounded-xl focus:ring-amber-500 focus:border-amber-500">
                 </div>
 
-                <div class="flex items-center justify-end space-x-2">
+                <div class="flex items-center justify-end space-x-2 pt-2">
                     <button type="button" onclick="document.getElementById('openShiftModal').classList.add('hidden')" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">
                         Cancel
                     </button>

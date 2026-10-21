@@ -66,6 +66,84 @@ class AuthAndRoleTest extends TestCase
         $response->assertJsonStructure(['orders']);
     }
 
+    public function test_barista_can_access_inventory_recipes_and_adjustments(): void
+    {
+        $response = $this->actingAs($this->barista)->get(route('ingredients.index'));
+        $response->assertStatus(200);
+
+        $response = $this->actingAs($this->barista)->get(route('recipes.index'));
+        $response->assertStatus(200);
+
+        $response = $this->actingAs($this->barista)->get(route('adjustments.index'));
+        $response->assertStatus(200);
+
+        $ingredient = \App\Models\Ingredient::first();
+        if ($ingredient) {
+            $response = $this->actingAs($this->barista)->post(route('adjustments.store'), [
+                'ingredient_id' => $ingredient->id,
+                'type' => 'spoilage_waste',
+                'quantity_adjusted' => -1,
+                'reason' => 'Accidental spillage at coffee machine',
+            ]);
+            $response->assertRedirect(route('adjustments.index'));
+            $response->assertSessionHas('success');
+        }
+    }
+
+    public function test_cashier_name_is_cashier_1_and_can_choose_shift_station_and_period(): void
+    {
+        $this->assertEquals('Cashier 1', $this->cashier->name);
+
+        \App\Models\CashierShift::where('user_id', $this->cashier->id)->delete();
+
+        $response = $this->actingAs($this->cashier)->post(route('shifts.open'), [
+            'opening_cash' => 120.00,
+            'cashier_station' => 'Cashier 2',
+            'shift_period' => 'Morning',
+        ]);
+        $response->assertRedirect(route('pos.index'));
+
+        $shift = $this->cashier->activeShift();
+        $this->assertNotNull($shift);
+        $this->assertEquals('Cashier 2', $shift->cashier_station);
+        $this->assertEquals('Morning', $shift->shift_period);
+        $this->assertEquals(120.00, (float) $shift->opening_cash);
+    }
+
+    public function test_cashier_cannot_create_loyalty_reward(): void
+    {
+        $response = $this->actingAs($this->cashier)->post(route('loyalty.rewards.store'), [
+            'name' => 'Free Pastry',
+            'points_required' => 50,
+            'discount_type' => 'fixed_amount',
+            'discount_value' => 5.00,
+        ]);
+        $response->assertStatus(403);
+    }
+
+    public function test_purchase_order_can_be_created_with_product_and_amount_only(): void
+    {
+        $supplier = \App\Models\Supplier::first();
+        $ingredient = \App\Models\Ingredient::first();
+
+        $response = $this->actingAs($this->admin)->post(route('purchase-orders.store'), [
+            'supplier_id' => $supplier->id,
+            'ordered_at' => now()->toDateString(),
+            'items' => [
+                [
+                    'ingredient_id' => $ingredient->id,
+                    'quantity_ordered' => 20,
+                ],
+            ],
+        ]);
+
+        $response->assertSessionHas('success');
+        $po = \App\Models\PurchaseOrder::latest()->first();
+        $this->assertNotNull($po);
+        $this->assertEquals(1, $po->items->count());
+        $this->assertEquals(20, (float) $po->items->first()->quantity_ordered);
+    }
+
     public function test_admin_cannot_change_own_role(): void
     {
         $cashierRole = Role::where('slug', 'cashier')->firstOrFail();

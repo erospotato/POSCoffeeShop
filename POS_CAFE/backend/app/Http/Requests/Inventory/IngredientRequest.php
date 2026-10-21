@@ -9,7 +9,7 @@ class IngredientRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->isAdmin() || $this->user()->isManager();
+        return $this->user()->isAdmin() || $this->user()->isManager() || $this->user()->isBarista();
     }
 
     public function rules(): array
@@ -19,10 +19,10 @@ class IngredientRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:120'],
             'sku' => ['required', 'string', 'max:60', Rule::unique('ingredients', 'sku')->ignore($ingId)],
-            'unit' => ['required', 'in:g,ml,pcs,kg,l'],
-            'cost_per_unit' => ['required', 'numeric', 'min:0'],
+            'unit' => ['required', 'string', 'max:20'],
+            'cost_per_unit' => ['nullable', 'numeric', 'min:0'],
             'current_stock' => ['nullable', 'numeric', 'min:0'],
-            'min_stock_alert' => ['required', 'numeric', 'min:0'],
+            'min_stock_alert' => ['nullable', 'numeric', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
         ];
     }
