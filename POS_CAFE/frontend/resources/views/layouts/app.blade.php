@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Artisan Café POS') }} - {{ $title ?? 'Management System' }}</title>
+    <title>{{ config('app.name', 'Veloura Café POS') }} - {{ $title ?? 'Management System' }}</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
             <header class="h-16 bg-white border-b border-slate-200 sticky top-0 z-20 flex items-center justify-between px-8 shadow-sm">
                 <div class="flex items-center space-x-4">
                     <h2 class="text-lg font-bold text-slate-900 tracking-tight">
-                        {{ $header ?? 'Artisan Café' }}
+                        {{ $header ?? 'Veloura Café' }}
                     </h2>
                 </div>
 
@@ -97,7 +97,7 @@
 
             <!-- Footer -->
             <footer class="h-12 border-t border-slate-200 px-8 flex items-center justify-between text-xs text-slate-500 bg-white">
-                <div>&copy; {{ date('Y') }} Artisan Café Management System. University Project.</div>
+                <div>&copy; {{ date('Y') }} Veloura Café Management System.</div>
                 <div class="flex space-x-4">
                     <span>Tax: {{ \App\Models\SystemSetting::get('tax_rate', '10') }}% ({{ \App\Models\SystemSetting::get('tax_mode', 'exclusive') }})</span>
                     <span>•</span>

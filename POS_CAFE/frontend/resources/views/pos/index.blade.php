@@ -55,11 +55,9 @@
                 <span>Dashboard</span>
             </a>
             <div class="h-4 w-px bg-slate-700"></div>
-            <div class="flex items-center space-x-2">
-                <div class="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center text-slate-950 shadow-xs">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M2 21h18v-2H2v2zm2-4h14a1 1 0 001-1v-4a1 1 0 00-1-1H4v5a1 1 0 001 1zm16-8h-2V5c0-1.1-.9-2-2-2H4C2.9 3 2 3.9 2 5v9c0 2.2 1.8 4 4 4h10c2.2 0 4-1.8 4-4v-1h2c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-2 3v-1h2v1h-2z"/></svg>
-                </div>
-                <h1 class="text-sm font-black tracking-tight text-white">Artisan Roastery & Café POS</h1>
+            <div class="flex items-center space-x-2.5">
+                <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="h-8 w-auto">
+                <h1 class="text-sm font-black tracking-tight text-white">Veloura Café POS</h1>
             </div>
         </div>
 
@@ -428,7 +426,7 @@
             <!-- Terminal Header -->
             <div class="bg-slate-900 text-white p-5 flex items-center justify-between">
                 <div>
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-amber-400 block">Artisan Café • Checkout Terminal</span>
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-amber-400 block">Veloura Café • Checkout Terminal</span>
                     <h3 class="text-base font-black">Complete Payment</h3>
                 </div>
                 <button onclick="closePaymentModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-base">&times;</button>
@@ -559,7 +557,7 @@
                                 <rect x="55" y="75" width="15" height="8" fill="black"/>
                                 <rect x="75" y="75" width="15" height="15" fill="black"/>
                             </svg>
-                            <span class="absolute bottom-1 bg-amber-500 text-white font-mono text-[9px] font-bold px-1.5 py-0.5 rounded">Artisan Pay</span>
+                            <span class="absolute bottom-1 bg-amber-500 text-white font-mono text-[9px] font-bold px-1.5 py-0.5 rounded">Veloura Pay</span>
                         </div>
                         <span class="text-sm font-black text-amber-600 font-mono" id="qrAmountDisplay">$0.00</span>
                         <p class="text-[11px] text-slate-500 mt-1">PromptPay / KHQR / Apple Pay supported.</p>
@@ -587,7 +585,8 @@
             <!-- Authentic Thermal Paper Receipt -->
             <div class="thermal-receipt w-full p-6 text-slate-900 rounded-t-2xl border-t-4 border-amber-500">
                 <div class="text-center pb-3 border-b border-dashed border-slate-300">
-                    <h2 class="text-base font-black uppercase tracking-tight" id="receiptStoreName">Artisan Roastery & Café</h2>
+                    <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="h-10 w-auto mx-auto mb-1">
+                    <h2 class="text-base font-black uppercase tracking-tight" id="receiptStoreName">Veloura Café</h2>
                     <p class="text-[10px] text-slate-500" id="receiptStoreAddress">No. 88 Heritage Blvd</p>
                     <p class="text-[10px] text-slate-500" id="receiptStorePhone">Tel: +855 23 888 999</p>
                 </div>
@@ -673,7 +672,7 @@
                         <span class="h-full w-1.5 bg-black"></span>
                     </div>
                     <p class="text-[9px] font-mono text-slate-500" id="receiptBarcodeText">ORD-0000</p>
-                    <p class="text-[10px] font-semibold text-slate-700 pt-1" id="receiptStoreFooter">Thank you for visiting Artisan Café!</p>
+                    <p class="text-[10px] font-semibold text-slate-700 pt-1" id="receiptStoreFooter">Thank you for visiting Veloura Café!</p>
                 </div>
             </div>
 

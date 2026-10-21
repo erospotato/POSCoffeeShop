@@ -143,7 +143,7 @@ class PosController extends Controller
     {
         $order->load(['items.addons', 'payments', 'cashier', 'customer']);
 
-        $cafeName = SystemSetting::get('cafe_name', 'Artisan Roastery & Café');
+        $cafeName = SystemSetting::get('cafe_name', 'Veloura Café');
         $cafeAddress = SystemSetting::get('cafe_address', 'No. 88 Heritage Blvd');
         $cafePhone = SystemSetting::get('cafe_phone', '+855 23 888 999');
         $receiptFooter = SystemSetting::get('receipt_footer', 'Thank you for your visit!');
@@ -235,7 +235,7 @@ class PosController extends Controller
                     'reference' => $p->transaction_reference,
                 ];
             }),
-            'cafe_name' => SystemSetting::get('cafe_name', 'Artisan Roastery & Café'),
+            'cafe_name' => SystemSetting::get('cafe_name', 'Veloura Café'),
             'cafe_address' => SystemSetting::get('cafe_address', 'No. 88 Heritage Blvd'),
             'cafe_phone' => SystemSetting::get('cafe_phone', '+855 23 888 999'),
             'receipt_footer' => SystemSetting::get('receipt_footer', 'Thank you for your visit!'),

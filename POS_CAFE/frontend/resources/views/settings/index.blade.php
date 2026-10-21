@@ -19,7 +19,7 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Café Brand Name</label>
                         <input type="text" name="settings[cafe_name]"
-                               value="{{ old('settings.cafe_name', $settings->get('cafe_name')?->value ?? 'Artisan Roastery & Café') }}"
+                               value="{{ old('settings.cafe_name', $settings->get('cafe_name')?->value ?? 'Veloura Café') }}"
                                class="w-full text-xs px-3.5 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500">
                     </div>
 
@@ -40,7 +40,7 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Contact Email</label>
                         <input type="email" name="settings[cafe_email]"
-                               value="{{ old('settings.cafe_email', $settings->get('cafe_email')?->value ?? 'hello@artisancafe.com') }}"
+                               value="{{ old('settings.cafe_email', $settings->get('cafe_email')?->value ?? 'hello@velouracafe.com') }}"
                                class="w-full text-xs px-3.5 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500">
                     </div>
                 </div>

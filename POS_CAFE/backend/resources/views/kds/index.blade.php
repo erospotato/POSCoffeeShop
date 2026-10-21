@@ -21,9 +21,9 @@
                 <span>Exit KDS</span>
             </a>
             <div class="h-4 w-px bg-slate-200"></div>
-            <div class="flex items-center space-x-2">
-                <div class="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center text-sm font-bold text-white shadow-2xs">☕</div>
-                <h1 class="text-sm font-black text-slate-900 tracking-tight">Artisan Barista Kitchen Display (KDS)</h1>
+            <div class="flex items-center space-x-2.5">
+                <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="h-8 w-auto">
+                <h1 class="text-sm font-black text-slate-900 tracking-tight">Veloura Barista Kitchen Display (KDS)</h1>
                 <span class="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">Queue Order: First to Last</span>
             </div>
         </div>

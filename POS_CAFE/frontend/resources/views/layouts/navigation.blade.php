@@ -6,18 +6,16 @@
 <!-- Sidebar for desktop -->
 <aside class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-900 text-slate-200 flex flex-col shadow-xl transition-all duration-300">
     <!-- Brand / Café Name -->
-    <div class="h-16 flex items-center px-6 bg-slate-950 border-b border-slate-800">
-        <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-500 flex items-center justify-center text-white shadow-md">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/>
-                </svg>
+    <div class="h-16 flex items-center px-5 bg-slate-950 border-b border-slate-800">
+        <a href="{{ route('dashboard') }}" class="flex items-center space-x-2.5">
+            <div class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center p-1 shadow-sm">
+                <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="w-full h-full object-contain">
             </div>
             <div>
-                <h1 class="text-sm font-bold text-white tracking-wide leading-tight">Artisan Café</h1>
+                <h1 class="text-sm font-extrabold text-white tracking-wide leading-tight">Veloura Café</h1>
                 <span class="text-[10px] text-amber-400 font-medium uppercase tracking-wider">POS & Management</span>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Navigation Menu Items -->
