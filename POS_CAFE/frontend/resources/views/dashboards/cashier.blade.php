@@ -28,11 +28,6 @@
             </div>
 
             <div class="flex items-center space-x-3">
-                <div class="text-right mr-4">
-                    <span class="text-xs text-slate-400 block">Expected Cash in Drawer</span>
-                    <span class="text-xl font-extrabold text-slate-900">${{ number_format($activeShift->expected_cash, 2) }}</span>
-                </div>
-
                 <a href="{{ route('pos.index') }}" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow-sm transition text-xs flex items-center">
                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                     Go to POS Terminal

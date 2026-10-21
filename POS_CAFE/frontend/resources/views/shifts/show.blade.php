@@ -36,17 +36,19 @@
     </div>
 
     <!-- Financial Breakdown KPI Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-1 {{ auth()->user()->isCashier() ? 'md:grid-cols-3' : 'md:grid-cols-4' }} gap-4 mb-8">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
             <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-1">Opening Cash Float</span>
             <div class="text-xl font-black text-slate-900">${{ number_format($shift->opening_cash, 2) }}</div>
         </div>
 
+        @if(!auth()->user()->isCashier())
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
             <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-1">Expected Closing Cash</span>
             <div class="text-xl font-black text-slate-900">${{ number_format($shift->expected_cash, 2) }}</div>
             <span class="text-[10px] text-slate-400">Float + Cash Sales ± Drawer Movements</span>
         </div>
+        @endif
 
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
             <span class="text-[10px] uppercase font-semibold text-slate-400 block mb-1">Actual Counted Cash</span>
@@ -229,14 +231,16 @@
 
             <form method="POST" action="{{ route('shifts.close', $shift->id) }}">
                 @csrf
+                @if(!auth()->user()->isCashier())
                 <div class="p-3 rounded-xl bg-slate-100 mb-4 text-xs">
                     <span class="text-slate-500 block">Expected Closing Cash:</span>
                     <span class="text-lg font-black text-slate-900">${{ number_format($shift->expected_cash, 2) }}</span>
                 </div>
+                @endif
 
                 <div class="mb-3">
                     <label class="block text-xs font-bold text-slate-700 mb-1">Actual Counted Cash ($)</label>
-                    <input type="number" step="0.01" name="actual_cash" required class="w-full text-xl font-black text-slate-900 px-3 py-2 border border-slate-300 rounded-xl">
+                    <input type="number" step="0.01" name="actual_cash" placeholder="0.00" required class="w-full text-xl font-black text-slate-900 px-3 py-2 border border-slate-300 rounded-xl">
                 </div>
 
                 <div class="mb-4">

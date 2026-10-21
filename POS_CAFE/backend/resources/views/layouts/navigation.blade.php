@@ -180,7 +180,9 @@
                 <span class="inline-flex items-center text-emerald-400 font-semibold">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span> Shift #{{ $activeShift->id }} Open
                 </span>
-                <span class="text-slate-400">${{ number_format($activeShift->expected_cash, 2) }}</span>
+                @if(!$user?->isCashier())
+                    <span class="text-slate-400">${{ number_format($activeShift->expected_cash, 2) }}</span>
+                @endif
             </div>
         @elseif($user && $user->isCashier())
             <div class="text-xs text-amber-400 mb-2 flex items-center">

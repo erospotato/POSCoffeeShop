@@ -36,12 +36,14 @@
             </div>
 
             <div class="flex items-center space-x-3">
+                @if(!auth()->user()->isCashier())
                 <div class="text-right mr-3">
                     <span class="text-xs text-slate-400 block">Expected Cash</span>
                     <span class="text-lg font-black text-slate-900">${{ number_format($activeShift->expected_cash, 2) }}</span>
                 </div>
+                @endif
                 <a href="{{ route('shifts.show', $activeShift->id) }}" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition">
-                    View & Reconcile &rarr;
+                    {{ auth()->user()->isCashier() ? 'Shift Details & Close' : 'View & Reconcile' }} &rarr;
                 </a>
             </div>
         </div>
@@ -58,7 +60,9 @@
                         <th class="px-6 py-3">Opened</th>
                         <th class="px-6 py-3">Closed</th>
                         <th class="px-6 py-3">Opening Float</th>
+                        @if(!auth()->user()->isCashier())
                         <th class="px-6 py-3">Expected Cash</th>
+                        @endif
                         <th class="px-6 py-3">Actual Count</th>
                         <th class="px-6 py-3">Discrepancy</th>
                         <th class="px-6 py-3">Status</th>
@@ -76,7 +80,9 @@
                             <td class="px-6 py-3.5 text-slate-500">{{ $shift->opened_at->format('M d, H:i') }}</td>
                             <td class="px-6 py-3.5 text-slate-500">{{ $shift->closed_at ? $shift->closed_at->format('M d, H:i') : '—' }}</td>
                             <td class="px-6 py-3.5 font-medium text-slate-700">${{ number_format($shift->opening_cash, 2) }}</td>
+                            @if(!auth()->user()->isCashier())
                             <td class="px-6 py-3.5 font-bold text-slate-900">${{ number_format($shift->expected_cash, 2) }}</td>
+                            @endif
                             <td class="px-6 py-3.5 font-medium text-slate-800">
                                 {{ $shift->actual_cash !== null ? '$' . number_format($shift->actual_cash, 2) : '—' }}
                             </td>
@@ -106,7 +112,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" class="px-6 py-12 text-center text-slate-400">
+                            <td colspan="{{ auth()->user()->isCashier() ? 9 : 10 }}" class="px-6 py-12 text-center text-slate-400">
                                 No cashier shift records found.
                             </td>
                         </tr>

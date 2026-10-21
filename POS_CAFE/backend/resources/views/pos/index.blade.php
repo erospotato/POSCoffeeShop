@@ -67,7 +67,9 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span class="font-extrabold text-slate-100">{{ $activeShift->cashier_station ?? 'Cashier 1' }}</span>
                     <span class="text-amber-400 font-semibold">({{ $activeShift->shift_period ?? 'Morning' }})</span>
-                    <span class="text-slate-400">• Exp: ${{ number_format($activeShift->expected_cash, 2) }}</span>
+                    @if(!auth()->user()->isCashier())
+                        <span class="text-slate-400">• Exp: ${{ number_format($activeShift->expected_cash, 2) }}</span>
+                    @endif
                     <button type="button" onclick="openEndShiftModal()" class="ml-1.5 px-2 py-0.5 bg-rose-900/80 hover:bg-rose-800 text-rose-200 border border-rose-700 rounded-md text-[10px] font-bold transition">
                         End Shift
                     </button>
@@ -774,14 +776,16 @@
 
             <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1 font-sans">
                 <div class="flex justify-between"><span class="text-slate-500">Station / Period:</span><span class="font-bold text-slate-800">{{ $activeShift->cashier_station ?? 'Cashier 1' }} ({{ $activeShift->shift_period ?? 'Morning' }})</span></div>
+                @if(!auth()->user()->isCashier())
                 <div class="flex justify-between"><span class="text-slate-500">Expected Cash:</span><span class="font-mono font-bold text-amber-600">${{ number_format($activeShift->expected_cash, 2) }}</span></div>
+                @endif
             </div>
 
             <form method="POST" action="{{ route('shifts.close', $activeShift->id) }}" class="space-y-3">
                 @csrf
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Actual Cash Counted ($) *</label>
-                    <input type="number" step="0.01" name="actual_cash" value="{{ number_format($activeShift->expected_cash, 2, '.', '') }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-mono font-bold">
+                    <input type="number" step="0.01" name="actual_cash" placeholder="0.00" value="{{ auth()->user()->isCashier() ? '' : number_format($activeShift->expected_cash, 2, '.', '') }}" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl font-mono font-bold">
                 </div>
 
                 <div>
