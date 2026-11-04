@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-100">
+<html lang="en" class="h-full bg-[#0b0914] text-slate-100 dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,8 +15,9 @@
     <style>
         .thermal-receipt {
             font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
-            background: #ffffff;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            background: #ffffff !important;
+            color: #0f172a !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
             position: relative;
         }
         .thermal-receipt::after {
@@ -26,7 +27,7 @@
             left: 0;
             right: 0;
             height: 8px;
-            background: radial-gradient(circle, transparent, transparent 50%, #ffffff 50%, #ffffff 100% );
+            background: radial-gradient(circle, transparent, transparent 50%, #ffffff 50%, #ffffff 100% ) !important;
             background-size: 16px 16px;
         }
         /* Custom smooth scrollbar */
@@ -35,78 +36,80 @@
             height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: #0b0914;
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #37285c;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+            background: #7e22ce;
         }
     </style>
 </head>
-<body class="h-full font-sans antialiased text-slate-800 bg-slate-100 overflow-hidden flex flex-col select-none">
+<body class="h-full font-sans antialiased text-slate-100 bg-[#0b0914] overflow-hidden flex flex-col select-none">
     <!-- Top Header Bar -->
-    <header class="h-14 bg-slate-900 text-white flex items-center justify-between px-6 shrink-0 shadow-md z-30">
+    <header class="h-14 bg-[#090714] text-white flex items-center justify-between px-6 shrink-0 shadow-md z-30 border-b border-[#281e42]">
         <div class="flex items-center space-x-4">
-            <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 text-slate-300 hover:text-white transition text-xs font-semibold">
+            <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 text-purple-300 hover:text-white transition text-xs font-semibold">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 <span>Dashboard</span>
             </a>
-            <div class="h-4 w-px bg-slate-700"></div>
+            <div class="h-4 w-px bg-[#281e42]"></div>
             <div class="flex items-center space-x-2.5">
-                <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="h-8 w-auto">
+                <div class="w-8 h-8 rounded-lg bg-[#191336] border border-[#2d2050] flex items-center justify-center p-1">
+                    <img src="{{ asset('images/logo.svg') }}" alt="Veloura Café" class="h-full w-auto">
+                </div>
                 <h1 class="text-sm font-black tracking-tight text-white">Veloura Café POS</h1>
             </div>
         </div>
 
         <div class="flex items-center space-x-3 text-xs">
             @if($activeShift)
-                <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
+                <div class="flex items-center space-x-2 bg-[#16122d] px-3 py-1.5 rounded-xl border border-[#2b2050]">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span class="font-extrabold text-slate-100">{{ $activeShift->cashier_station ?? 'Cashier 1' }}</span>
-                    <span class="text-amber-400 font-semibold">({{ $activeShift->shift_period ?? 'Morning' }})</span>
+                    <span class="font-extrabold text-white">{{ $activeShift->cashier_station ?? 'Cashier 1' }}</span>
+                    <span class="text-purple-400 font-semibold">({{ $activeShift->shift_period ?? 'Morning' }})</span>
                     @if(!auth()->user()->isCashier())
-                        <span class="text-slate-400">• Exp: ${{ number_format($activeShift->expected_cash, 2) }}</span>
+                        <span class="text-purple-300/80 font-mono">• Exp: ${{ number_format($activeShift->expected_cash, 2) }}</span>
                     @endif
-                    <button type="button" onclick="openEndShiftModal()" class="ml-1.5 px-2 py-0.5 bg-rose-900/80 hover:bg-rose-800 text-rose-200 border border-rose-700 rounded-md text-[10px] font-bold transition">
+                    <button type="button" onclick="openEndShiftModal()" class="ml-1.5 px-2 py-0.5 bg-rose-950/80 hover:bg-rose-900 text-rose-200 border border-rose-800 rounded-md text-[10px] font-bold transition">
                         End Shift
                     </button>
                 </div>
             @else
-                <div class="flex items-center space-x-2 bg-amber-950/80 text-amber-300 px-3 py-1.5 rounded-xl border border-amber-800">
-                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                <div class="flex items-center space-x-2 bg-purple-950/80 text-purple-300 px-3 py-1.5 rounded-xl border border-purple-800">
+                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
                     <span class="font-bold">No Active Shift</span>
-                    <button type="button" onclick="openStartShiftModal()" class="ml-1.5 px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black rounded-lg text-[10px] shadow-sm transition">
+                    <button type="button" onclick="openStartShiftModal()" class="ml-1.5 px-2.5 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black rounded-lg text-[10px] shadow-sm transition">
                         Start Shift
                     </button>
                 </div>
             @endif
 
-            <span class="text-slate-400 font-medium hidden md:inline">{{ Auth::user()->name }} ({{ Auth::user()->role->name }})</span>
-            <div id="liveClock" class="font-mono text-amber-400 font-bold bg-slate-800 px-2.5 py-1 rounded-md"></div>
+            <span class="text-purple-300/80 font-medium hidden md:inline">{{ Auth::user()->name }} ({{ Auth::user()->role->name }})</span>
+            <div id="liveClock" class="font-mono text-purple-400 font-bold bg-[#16122d] px-2.5 py-1 rounded-md border border-[#2b2050]"></div>
         </div>
     </header>
 
     <!-- Main POS Interface Grid -->
     <div class="flex-1 flex overflow-hidden">
         <!-- Left Column: Catalog, Categories & Search -->
-        <div class="flex-1 flex flex-col p-4 overflow-hidden border-r border-slate-200 bg-slate-100">
+        <div class="flex-1 flex flex-col p-4 overflow-hidden border-r border-[#281e42] bg-[#0b0914]">
             <!-- Search & Filter Bar -->
             <div class="flex items-center space-x-3 mb-3 shrink-0">
                 <div class="flex-1 relative">
-                    <input type="text" id="posSearchInput" placeholder="Search coffee, drinks, pastries by name or SKU..." class="w-full px-4 py-2 bg-white border border-slate-300 rounded-xl text-xs focus:ring-amber-500 focus:border-amber-500 shadow-xs">
+                    <input type="text" id="posSearchInput" placeholder="Search coffee, drinks, pastries by name or SKU..." class="w-full px-4 py-2 bg-[#110d22] border border-[#2d2250] rounded-xl text-xs text-white placeholder:text-purple-300/40 focus:ring-purple-500 focus:border-purple-500 shadow-xs">
                 </div>
             </div>
 
             <!-- Category Filter Pills -->
             <div class="flex items-center space-x-2 pb-3 shrink-0 overflow-x-auto" id="categoryFilterContainer">
-                <button onclick="filterCategory('all', this)" class="category-btn active px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-white shadow-sm transition">
+                <button onclick="filterCategory('all', this)" class="category-btn active px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-950/50 transition">
                     All Menu Items ({{ $allProducts->count() }})
                 </button>
                 @foreach($categories as $category)
-                    <button onclick="filterCategory('{{ $category->id }}', this)" class="category-btn px-4 py-2 rounded-xl text-xs font-semibold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 transition shadow-xs whitespace-nowrap">
+                    <button onclick="filterCategory('{{ $category->id }}', this)" class="category-btn px-4 py-2 rounded-xl text-xs font-semibold bg-[#16122d] text-purple-200 border border-[#281e44] hover:bg-[#1e173d] transition shadow-xs whitespace-nowrap">
                         {{ $category->name }} ({{ $category->products->count() }})
                     </button>
                 @endforeach
@@ -116,7 +119,7 @@
             <div class="flex-1 overflow-y-auto pr-1">
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5" id="productGrid">
                     @foreach($allProducts as $product)
-                        <div class="product-card group bg-white p-3 rounded-2xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition cursor-pointer flex flex-col justify-between"
+                        <div class="product-card group bg-[#16122d] p-3 rounded-2xl border border-[#281e44] hover:border-purple-500 transition cursor-pointer flex flex-col justify-between"
                              data-category-id="{{ $product->category_id }}"
                              data-name="{{ strtolower($product->name) }}"
                              data-sku="{{ strtolower($product->sku) }}"

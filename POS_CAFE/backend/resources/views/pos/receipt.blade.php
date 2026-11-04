@@ -29,15 +29,16 @@
         .print-btn {
             display: block;
             width: 100%;
-            padding: 8px;
-            background: #000;
+            padding: 10px;
+            background: linear-gradient(135deg, #9333ea, #7e22ce);
             color: #fff;
             text-align: center;
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 15px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
         }
         @media print {
             .no-print { display: none; }

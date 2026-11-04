@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build && node -e \"const fs = require('fs'); fs.cpSync('public/build', '../backend/public/build', { recursive: true, force: true }); console.log('Copied build to backend/public/build');\""
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

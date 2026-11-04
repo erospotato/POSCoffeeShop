@@ -189,7 +189,7 @@
         </div>
     </div>
 
-    <!-- Chart.js Scripts -->
+    <!-- Chart.js Scripts (Dark & Purple) -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Trend Line Chart
@@ -202,31 +202,41 @@
                         datasets: [{
                             label: 'Sales Revenue ($)',
                             data: @json($salesTrend['data']),
-                            borderColor: '#d97706',
-                            backgroundColor: 'rgba(217, 119, 6, 0.08)',
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.18)',
                             borderWidth: 2.5,
                             tension: 0.3,
                             fill: true,
-                            pointBackgroundColor: '#d97706',
-                            pointRadius: 3,
+                            pointBackgroundColor: '#c084fc',
+                            pointRadius: 4,
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { display: false }
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1b1435',
+                                titleColor: '#ffffff',
+                                bodyColor: '#d8b4fe',
+                                borderColor: '#3b2b69',
+                                borderWidth: 1,
+                            }
                         },
                         scales: {
                             y: {
                                 beginAtZero: true,
+                                grid: { color: 'rgba(168, 85, 247, 0.12)' },
                                 ticks: {
+                                    color: '#9f97c4',
                                     callback: function(val) { return '$' + val; },
                                     font: { size: 10 }
                                 }
                             },
                             x: {
-                                ticks: { font: { size: 10 } }
+                                grid: { display: false },
+                                ticks: { color: '#9f97c4', font: { size: 10 } }
                             }
                         }
                     }
@@ -246,10 +256,10 @@
                         datasets: [{
                             data: payData.length > 0 ? payData : [1],
                             backgroundColor: payData.length > 0
-                                ? ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899']
-                                : ['#e2e8f0'],
+                                ? ['#10b981', '#6366f1', '#a855f7', '#ec4899', '#f59e0b']
+                                : ['#281e42'],
                             borderWidth: 2,
-                            borderColor: '#ffffff',
+                            borderColor: '#151026',
                         }]
                     },
                     options: {
@@ -258,7 +268,14 @@
                         plugins: {
                             legend: {
                                 position: 'bottom',
-                                labels: { boxWidth: 12, font: { size: 11 } }
+                                labels: { boxWidth: 12, color: '#d8b4fe', font: { size: 11 } }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1b1435',
+                                titleColor: '#ffffff',
+                                bodyColor: '#d8b4fe',
+                                borderColor: '#3b2b69',
+                                borderWidth: 1,
                             }
                         }
                     }

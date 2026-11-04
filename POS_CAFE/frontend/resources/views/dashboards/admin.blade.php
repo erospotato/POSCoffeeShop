@@ -175,7 +175,7 @@
     <!-- Chart.js Scripts Initialization -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Sales Trend
+            // Sales Trend (Dark & Purple)
             const trendCtx = document.getElementById('salesTrendChart')?.getContext('2d');
             if (trendCtx) {
                 new Chart(trendCtx, {
@@ -185,28 +185,45 @@
                         datasets: [{
                             label: 'Daily Sales ($)',
                             data: @json($salesTrend['data']),
-                            borderColor: '#d97706',
-                            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.18)',
                             fill: true,
                             tension: 0.3,
-                            borderWidth: 2,
+                            borderWidth: 2.5,
                             pointRadius: 4,
-                            pointBackgroundColor: '#d97706',
+                            pointBackgroundColor: '#c084fc',
+                            pointBorderColor: '#7e22ce',
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1b1435',
+                                titleColor: '#ffffff',
+                                bodyColor: '#d8b4fe',
+                                borderColor: '#3b2b69',
+                                borderWidth: 1,
+                            }
+                        },
                         scales: {
-                            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
-                            x: { grid: { display: false } }
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(168, 85, 247, 0.12)' },
+                                ticks: { color: '#9f97c4' }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#9f97c4' }
+                            }
                         }
                     }
                 });
             }
 
-            // Payment Methods Doughnut
+            // Payment Methods Doughnut (Dark & Purple)
             const paymentCtx = document.getElementById('paymentMethodChart')?.getContext('2d');
             if (paymentCtx) {
                 new Chart(paymentCtx, {
@@ -215,16 +232,30 @@
                         labels: @json($paymentBreakdown['labels']),
                         datasets: [{
                             data: @json($paymentBreakdown['data']),
-                            backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'],
+                            backgroundColor: ['#10b981', '#6366f1', '#a855f7', '#ec4899'],
                             borderWidth: 2,
-                            borderColor: '#ffffff',
+                            borderColor: '#151026',
                         }]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: {
-                            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    color: '#d8b4fe',
+                                    font: { size: 11 }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1b1435',
+                                titleColor: '#ffffff',
+                                bodyColor: '#d8b4fe',
+                                borderColor: '#3b2b69',
+                                borderWidth: 1,
+                            }
                         }
                     }
                 });
