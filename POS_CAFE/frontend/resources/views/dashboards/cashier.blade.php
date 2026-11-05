@@ -5,7 +5,7 @@
 
     <!-- Shift Warning or Active Shift Details -->
     @if(!$activeShift)
-        <div class="mb-8 p-6 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md flex items-center justify-between">
+        <div class="mb-8 p-6 rounded-2xl bg-amber-600 text-white shadow-sm flex items-center justify-between">
             <div>
                 <h3 class="text-lg font-bold">No Cashier Shift Currently Active</h3>
                 <p class="text-xs text-amber-100 mt-1">You must open a cashier float shift with opening cash balance before processing POS sales.</p>

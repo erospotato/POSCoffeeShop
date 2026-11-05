@@ -195,14 +195,14 @@ tr.hover\:bg-slate-50:hover {
 
 .bg-amber-500,
 .bg-amber-600 {
-    background: linear-gradient(135deg, #9333ea, #7e22ce) !important;
+    background-color: #7c3aed !important;
     color: #ffffff !important;
 }
 
 .bg-amber-500:hover,
 .bg-amber-600:hover {
-    background: linear-gradient(135deg, #a855f7, #9333ea) !important;
-    box-shadow: 0 4px 18px rgba(147, 51, 234, 0.45) !important;
+    background-color: #6d28d9 !important;
+    color: #ffffff !important;
 }
 
 /* Dark Action Buttons */
@@ -294,26 +294,22 @@ tr.hover\:bg-slate-50:hover {
 }
 
 .product-card:hover {
-    border-color: #a855f7 !important;
-    box-shadow: 0 4px 20px rgba(168, 85, 247, 0.28) !important;
-    transform: translateY(-2px);
+    border-color: #7c3aed !important;
 }
 
 .category-btn.active {
-    background: linear-gradient(135deg, #9333ea, #7e22ce) !important;
+    background-color: #7c3aed !important;
     color: #ffffff !important;
-    border-color: transparent !important;
-    box-shadow: 0 4px 14px rgba(147, 51, 234, 0.4) !important;
+    border-color: #7c3aed !important;
 }
 
 .order-type-btn.active {
-    background: linear-gradient(135deg, #9333ea, #7e22ce) !important;
+    background-color: #7c3aed !important;
     color: #ffffff !important;
-    box-shadow: 0 2px 10px rgba(147, 51, 234, 0.4) !important;
 }
 
 .sidebar-size-btn.active {
-    background-color: #9333ea !important;
+    background-color: #7c3aed !important;
     color: #ffffff !important;
 }
 
@@ -325,14 +321,14 @@ tr.hover\:bg-slate-50:hover {
 
 /* Quick Add button */
 button[title="Quick Add to Order"] {
-    background: rgba(147, 51, 234, 0.2) !important;
-    color: #d8b4fe !important;
-    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    background: #251d3b !important;
+    color: #c4b5fd !important;
+    border: 1px solid #3b2d66 !important;
 }
 button[title="Quick Add to Order"]:hover {
-    background: #9333ea !important;
+    background-color: #7c3aed !important;
     color: #ffffff !important;
-    box-shadow: 0 2px 8px rgba(147, 51, 234, 0.5) !important;
+    border-color: #7c3aed !important;
 }
 
 /* ==========================================================================

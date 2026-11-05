@@ -30,7 +30,7 @@
             display: block;
             width: 100%;
             padding: 10px;
-            background: linear-gradient(135deg, #9333ea, #7e22ce);
+            background: #7c3aed;
             color: #fff;
             text-align: center;
             font-weight: bold;
@@ -38,7 +38,9 @@
             margin-bottom: 15px;
             border: none;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+        }
+        .print-btn:hover {
+            background: #6d28d9;
         }
         @media print {
             .no-print { display: none; }

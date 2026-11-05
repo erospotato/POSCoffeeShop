@@ -1,7 +1,7 @@
 @php
     $user = Auth::user();
     $activeShift = $user ? $user->activeShift() : null;
-    $activeClass = 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-950/60 font-semibold';
+    $activeClass = 'bg-purple-600 text-white font-semibold';
     $inactiveClass = 'hover:bg-[#1a1435] text-purple-200/80 hover:text-white font-medium';
 @endphp
 

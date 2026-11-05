@@ -81,7 +81,7 @@
                 <div class="flex items-center space-x-2 bg-purple-950/80 text-purple-300 px-3 py-1.5 rounded-xl border border-purple-800">
                     <span class="w-2 h-2 rounded-full bg-purple-400"></span>
                     <span class="font-bold">No Active Shift</span>
-                    <button type="button" onclick="openStartShiftModal()" class="ml-1.5 px-2.5 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black rounded-lg text-[10px] shadow-sm transition">
+                    <button type="button" onclick="openStartShiftModal()" class="ml-1.5 px-2.5 py-1 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-bold rounded-lg text-[10px] transition">
                         Start Shift
                     </button>
                 </div>
@@ -105,7 +105,7 @@
 
             <!-- Category Filter Pills -->
             <div class="flex items-center space-x-2 pb-3 shrink-0 overflow-x-auto" id="categoryFilterContainer">
-                <button onclick="filterCategory('all', this)" class="category-btn active px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-950/50 transition">
+                <button onclick="filterCategory('all', this)" class="category-btn active px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white transition">
                     All Menu Items ({{ $allProducts->count() }})
                 </button>
                 @foreach($categories as $category)
@@ -347,13 +347,12 @@
     <div id="customizationModal" onclick="if(event.target === this) closeCustomizationModal()" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
         <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col">
             <!-- Modal Header with Real Photo -->
-            <div class="h-36 w-full relative bg-slate-100">
+            <div class="h-36 w-full relative bg-[#110d22]">
                 <img id="modalProductImage" src="" alt="Product" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent"></div>
-                <button onclick="closeCustomizationModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white flex items-center justify-center font-bold text-lg">&times;</button>
-                <div class="absolute bottom-3 left-4 right-4 text-white">
-                    <span class="text-[10px] uppercase font-bold text-amber-400" id="modalProductCategory">Coffee</span>
-                    <h3 class="text-base font-extrabold leading-tight" id="modalProductName">Product Name</h3>
+                <button onclick="closeCustomizationModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-900/80 hover:bg-slate-900 text-white flex items-center justify-center font-bold text-lg">&times;</button>
+                <div class="absolute bottom-0 inset-x-0 bg-[#0f0b1f]/90 px-4 py-2 text-white border-t border-[#2d2250]">
+                    <span class="text-[10px] uppercase font-bold text-purple-400" id="modalProductCategory">Coffee</span>
+                    <h3 class="text-base font-extrabold leading-tight text-white" id="modalProductName">Product Name</h3>
                 </div>
             </div>
 

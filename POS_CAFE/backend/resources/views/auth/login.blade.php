@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="max-w-sm w-full mx-auto bg-[#151026] border border-[#281e42] rounded-3xl shadow-2xl p-8 sm:p-9 text-slate-100 relative">
+    <div class="max-w-sm w-full mx-auto bg-[#151026] border border-[#281e42] rounded-2xl shadow-xl p-8 sm:p-9 text-slate-100 relative">
         <!-- Brand Logo & Name -->
         <div class="text-center mb-8">
             <div class="w-16 h-16 mx-auto mb-3 rounded-2xl bg-[#1d1636] border border-[#37285c] flex items-center justify-center p-2.5 shadow-lg shadow-purple-950/40">
@@ -71,7 +71,7 @@
 
             <!-- Submit Button -->
             <div class="pt-2">
-                <button type="submit" id="btnSignInSubmit" class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.99] text-white font-extrabold rounded-xl shadow-lg shadow-purple-950/60 transition text-xs uppercase tracking-wider">
+                <button type="submit" id="btnSignInSubmit" class="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-bold rounded-xl transition text-xs uppercase tracking-wider">
                     Sign In
                 </button>
             </div>

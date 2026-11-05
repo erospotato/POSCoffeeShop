@@ -6,13 +6,13 @@
     <!-- Top Status Row -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
         <!-- Launch KDS Button Banner -->
-        <div class="md:col-span-1 bg-gradient-to-tr from-indigo-700 to-indigo-600 p-6 rounded-2xl text-white shadow-md flex flex-col justify-between">
+        <div class="md:col-span-1 bg-purple-700 p-6 rounded-2xl text-white shadow-sm flex flex-col justify-between">
             <div>
-                <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-200">Full-Screen Mode</span>
+                <span class="text-[10px] uppercase font-bold tracking-wider text-purple-200">Full-Screen Mode</span>
                 <h3 class="text-lg font-bold mt-1">Kitchen Display (KDS)</h3>
-                <p class="text-xs text-indigo-100 mt-2">Open full-screen interactive board for order prep and live polling.</p>
+                <p class="text-xs text-purple-100 mt-2">Open full-screen interactive board for order prep and live polling.</p>
             </div>
-            <a href="{{ route('kds.index') }}" class="mt-4 inline-flex items-center justify-center px-4 py-2.5 bg-white text-indigo-700 font-bold rounded-xl shadow-sm hover:bg-indigo-50 transition text-xs">
+            <a href="{{ route('kds.index') }}" class="mt-4 inline-flex items-center justify-center px-4 py-2.5 bg-white text-purple-700 font-bold rounded-xl shadow-sm hover:bg-purple-50 transition text-xs">
                 Launch KDS Display &rarr;
             </a>
         </div>

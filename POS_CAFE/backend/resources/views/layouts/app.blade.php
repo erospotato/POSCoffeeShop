@@ -37,7 +37,7 @@
                     @endphp
 
                     @if($currentUser && ($currentUser->isAdmin() || $currentUser->isManager() || $currentUser->isCashier()))
-                        <a href="{{ route('pos.index') }}" class="inline-flex items-center px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold shadow-md shadow-purple-950/50 transition">
+                        <a href="{{ route('pos.index') }}" class="inline-flex items-center px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold transition">
                             <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                             Launch POS
                         </a>

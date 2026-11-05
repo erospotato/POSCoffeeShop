@@ -47,12 +47,12 @@
                     $elapsed = $order->created_at->diffInMinutes(now());
                     $timerClass = $elapsed >= 15 ? 'bg-rose-950/70 text-rose-300 border border-rose-800/60 font-black animate-pulse' : ($elapsed >= 8 ? 'bg-purple-900/60 text-purple-200 border border-purple-700/60 font-bold' : 'bg-[#1a1435] text-purple-300 border border-[#37275d] font-medium');
                 @endphp
-                <div class="kds-card w-84 h-full bg-[#16122d] rounded-3xl border border-[#281e44] shadow-2xl flex flex-col justify-between shrink-0 overflow-hidden" data-order-id="{{ $order->id }}">
+                <div class="kds-card w-84 h-full bg-[#16122d] rounded-2xl border border-[#281e44] shadow-xl flex flex-col justify-between shrink-0 overflow-hidden" data-order-id="{{ $order->id }}">
                     <!-- Card Header -->
                     <div class="p-4 border-b border-[#281e44] bg-[#1a1435]">
                         <div class="flex items-center justify-between mb-1.5">
                             <div class="flex items-center space-x-2">
-                                <span class="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">#{{ $index + 1 }}</span>
+                                <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">#{{ $index + 1 }}</span>
                                 <span class="font-mono text-base font-black text-white tracking-tight">{{ $order->order_number }}</span>
                             </div>
                             <span class="px-2 py-0.5 rounded text-[11px] font-mono {{ $timerClass }}">{{ $elapsed }}m ago</span>
@@ -108,12 +108,12 @@
                                 <button onclick="updateOrderStatus({{ $order->id }}, 'preparing')" class="py-2.5 bg-[#231a44] hover:bg-[#30235e] text-purple-200 border border-[#3e2e73] font-bold rounded-xl text-xs uppercase tracking-wider transition">
                                     Preparing
                                 </button>
-                                <button onclick="updateOrderStatus({{ $order->id }}, 'completed')" class="py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black rounded-xl text-xs uppercase tracking-wider shadow-md shadow-emerald-950/50 transition">
+                                <button onclick="updateOrderStatus({{ $order->id }}, 'completed')" class="py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition">
                                     Complete ✓
                                 </button>
                             </div>
                         @else
-                            <button onclick="updateOrderStatus({{ $order->id }}, 'completed')" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-md shadow-emerald-950/50 transition flex items-center justify-center space-x-1">
+                            <button onclick="updateOrderStatus({{ $order->id }}, 'completed')" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center space-x-1">
                                 <span>✓</span>
                                 <span>Complete Order</span>
                             </button>
@@ -204,12 +204,12 @@
                         actionBtn = `
                             <div class="grid grid-cols-2 gap-2">
                                 <button onclick="updateOrderStatus(${order.id}, 'preparing')" class="py-2.5 bg-[#231a44] hover:bg-[#30235e] text-purple-200 border border-[#3e2e73] font-bold rounded-xl text-xs uppercase tracking-wider transition">Preparing</button>
-                                <button onclick="updateOrderStatus(${order.id}, 'completed')" class="py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black rounded-xl text-xs uppercase tracking-wider shadow-md shadow-emerald-950/50 transition">Complete ✓</button>
+                                <button onclick="updateOrderStatus(${order.id}, 'completed')" class="py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition">Complete ✓</button>
                             </div>
                         `;
                     } else {
                         actionBtn = `
-                            <button onclick="updateOrderStatus(${order.id}, 'completed')" class="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black rounded-2xl text-xs uppercase tracking-wider shadow-md shadow-emerald-950/50 transition flex items-center justify-center space-x-1">
+                            <button onclick="updateOrderStatus(${order.id}, 'completed')" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition flex items-center justify-center space-x-1">
                                 <span>✓</span>
                                 <span>Complete Order</span>
                             </button>
@@ -217,11 +217,11 @@
                     }
 
                     html += `
-                        <div class="kds-card w-84 h-full bg-[#16122d] rounded-3xl border border-[#281e44] shadow-2xl flex flex-col justify-between shrink-0 overflow-hidden" data-order-id="${order.id}">
+                        <div class="kds-card w-84 h-full bg-[#16122d] rounded-2xl border border-[#281e44] shadow-xl flex flex-col justify-between shrink-0 overflow-hidden" data-order-id="${order.id}">
                             <div class="p-4 border-b border-[#281e44] bg-[#1a1435]">
                                 <div class="flex items-center justify-between mb-1.5">
                                     <div class="flex items-center space-x-2">
-                                        <span class="w-6 h-6 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">#${idx + 1}</span>
+                                        <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">#${idx + 1}</span>
                                         <span class="font-mono text-base font-black text-white tracking-tight">${order.order_number}</span>
                                     </div>
                                     <span class="px-2 py-0.5 rounded text-[11px] font-mono ${timerClass}">${elapsed}m ago</span>
